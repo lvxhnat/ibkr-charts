@@ -27,7 +27,10 @@ import {
   BootstrapDialog,
   BootstrapDialogTitle,
 } from "../Indicator/IndicatorDialog/Dialog";
-import { StyledTableCell } from "../Indicator/IndicatorDialog/BaseTable";
+import {
+  StyledTableCell,
+  StyledTableRow,
+} from "../Indicator/IndicatorDialog/BaseTable";
 import { capitalizeString } from "../../../common/helper/general";
 
 export interface LegendProps extends Omit<ChartProps, "children"> {}
@@ -123,6 +126,7 @@ export default function Legend(props: LegendProps) {
 
   const handleClose = () => {
     setDialogOpen(false);
+    setStagingParams({});
   };
 
   return (
@@ -183,11 +187,8 @@ export default function Legend(props: LegendProps) {
                     <TableBody>
                       {params
                         ? Object.keys(params).map((paramString: string) => (
-                            <React.Fragment>
-                              <StyledTableCell
-                                key={paramString}
-                                sx={{ paddingLeft: 2 }}
-                              >
+                            <StyledTableRow key={paramString}>
+                              <StyledTableCell sx={{ paddingLeft: 2 }}>
                                 <Typography variant="subtitle1">
                                   {capitalizeString(paramString)}
                                 </Typography>
@@ -195,7 +196,10 @@ export default function Legend(props: LegendProps) {
                               <StyledTableCell key={paramString}>
                                 <S.NumericInput
                                   type="number"
-                                  value={params[paramString]}
+                                  value={
+                                    stagingParams[paramString] ??
+                                    params[paramString]
+                                  }
                                   style={{ width: "200px" }}
                                   onChange={(event) =>
                                     setStagingParams((oldParams) => ({
@@ -205,7 +209,7 @@ export default function Legend(props: LegendProps) {
                                   }
                                 />
                               </StyledTableCell>
-                            </React.Fragment>
+                            </StyledTableRow>
                           ))
                         : null}
                     </TableBody>
@@ -221,10 +225,23 @@ export default function Legend(props: LegendProps) {
                     size="small"
                     variant="contained"
                     disableFocusRipple
-                    onClick={() =>
+                    onClick={() => {
+                      // Create indicators and close
                       setIndicators(props.id, {
-                        [shortId]: { ...ind, ...stagingParams },
+                        [shortId]: {
+                          ...ind,
+                          params: stagingParams,
+                          data: ind.func(
+                            data.map((entry) => {
+                              if ("value" in entry) return entry.value;
+                              else return entry.close;
+                            }),
+                            stagingParams
+                          ),
+                        },
                       })
+                      handleClose()
+                    }
                     }
                     style={{
                       padding: "0 10px",
