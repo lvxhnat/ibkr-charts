@@ -11,7 +11,7 @@ import { TbMathIntegrals } from "react-icons/tb";
 export interface IndicatorParameterType {
   // Nested array because some functions tend to return multiple series
   func: (data: number[], params: any) => number[][];
-  params: object
+  params: {[param: string]: any}
   name: string 
   shortName: string
   tag: string

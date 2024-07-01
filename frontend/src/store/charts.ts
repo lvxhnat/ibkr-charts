@@ -35,6 +35,7 @@ interface ChartsTypes {
   charts: { [id: string]: ChartSettings };
   setData: (id: string, data: Data) => void;
   setIndicators: (id: string, indicator: Indicators) => void;
+  removeIndicator: (id: string, indicatorId: string) => void;
   setComponents: (id: string, components: Components) => void;
 }
 
@@ -73,6 +74,17 @@ export const useChartStore = create<ChartsTypes>((set) => ({
           ...pChart,
           indicators: { ...pChart.indicators, ...indicators },
         },
+      };
+      return { charts: newChart };
+    }),
+  removeIndicator: (id: string, indicatorId: string) =>
+    set((st) => {
+      const pChart = st.charts[id];
+      const newInds: Indicators = pChart.indicators;
+      delete newInds[indicatorId as keyof Indicators];
+      const newChart = {
+        ...st.charts,
+        [id]: { ...pChart, indicators: newInds },
       };
       return { charts: newChart };
     }),

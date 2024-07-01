@@ -87,27 +87,31 @@ export default function Charting(props: ChartingProps) {
     <Grid style={{ height: "800px", width: "100%" }}>
       <Grid container display="flex" gap={2}>
         <Grid item xs={3}>
-          <Search onClick={(conId) => {
-            setConId(conId)
-            handleClick(conId)
-          }} />
+          <Search
+            onClick={(conId) => {
+              setConId(conId);
+              handleClick(conId);
+            }}
+          />
         </Grid>
         <Grid item xs={8} display="flex" justifyContent="flex-start" gap={2}>
-        { conId ? <DateRangeSelector /> : null }
+          {conId ? <DateRangeSelector /> : null}
           <Indicators id={props.id} />
-          { conId ? <LivePrice id={props.id} conId={conId} /> : null}
+          {conId ? <LivePrice id={props.id} conId={conId} /> : null}
         </Grid>
       </Grid>
-      <Legend id={props.id} />
       <Grid sx={{ paddingTop: 1 }}>
-        {res.length !== 0 ? (
-          <Chart id={props.id}>
-            <XAxis id={props.id} />
-            <YAxis id={props.id} />
-            <Crosshair id={props.id} />
-            <Candlestick id={props.id} data={res} />
-            <IndicatorSeries id={props.id} />
-          </Chart>
+        {!!conId && res.length !== 0 ? (
+          <React.Fragment>
+            <Legend id={props.id} />
+            <Chart id={props.id}>
+              <XAxis id={props.id} />
+              <YAxis id={props.id} />
+              <Crosshair id={props.id} />
+              <Candlestick id={props.id} data={res} />
+              <IndicatorSeries id={props.id} />
+            </Chart>
+          </React.Fragment>
         ) : null}
       </Grid>
     </Grid>
