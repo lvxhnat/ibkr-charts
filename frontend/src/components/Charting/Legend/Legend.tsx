@@ -1,7 +1,6 @@
+import * as d3 from "d3";
 import * as S from "./style";
 import * as React from "react";
-import * as d3 from "d3";
-import moment from "moment";
 import {
   IndicatorObject,
   useChartMouseStore,
@@ -23,7 +22,6 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FunctionsIcon from "@mui/icons-material/Functions";
-import { SketchPicker } from "react-color";
 import {
   BootstrapDialog,
   BootstrapDialogTitle,
@@ -222,18 +220,6 @@ export default function Legend(props: LegendProps) {
                         : null}
                     </TableBody>
                   </Table>
-                </Grid>
-                <Grid container sx={{ padding: 2 }}>
-                  <Grid item xs={3}>
-                    <Typography variant="subtitle1">Line Color</Typography>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <SketchPicker
-                      onChangeComplete={(color) => {
-                        console.log(color);
-                      }}
-                    />
-                  </Grid>
                 </Grid>
                 <Grid
                   container

@@ -1,4 +1,4 @@
-import { MenuItem, Paper } from "@mui/material";
+import { MenuItem, MenuList, Paper } from "@mui/material";
 import { styled } from "@mui/system";
 import { ColorsEnum } from "../../../common/theme";
 
@@ -8,6 +8,13 @@ export const StyledPaper = styled(Paper)(({ theme }) => ({
   width: "100%",
   padding: 0,
   border: `1px solid ${ColorsEnum.darkGrey}`,
+}));
+
+export const StyledMenuList = styled(MenuList)(({ theme }) => ({
+  position: "absolute",
+  backgroundColor: ColorsEnum.darkGrey,
+  color: ColorsEnum.white,
+  zIndex: 100,
 }));
 
 export const StyledMenuItem = styled(MenuItem)(({ theme }) => ({

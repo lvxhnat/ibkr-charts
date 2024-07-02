@@ -113,13 +113,7 @@ export default function Search(props: SearchProps) {
         </S.StyledPaper>
       </Paper>
       {showMenu ? (
-        <MenuList
-          sx={{
-            position: "absolute",
-            backgroundColor: ColorsEnum.darkGrey,
-            color: ColorsEnum.white,
-          }}
-        >
+        <S.StyledMenuList>
           {results.map((d) => (
             <S.StyledMenuItem
               key={d.conid}
@@ -150,7 +144,7 @@ export default function Search(props: SearchProps) {
               </Grid>
             </S.StyledMenuItem>
           ))}
-        </MenuList>
+        </S.StyledMenuList>
       ) : null}
     </React.Fragment>
   );

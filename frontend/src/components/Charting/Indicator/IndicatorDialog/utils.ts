@@ -1,7 +1,7 @@
 import { Indicators } from "../../../../store/charts";
 import { Data } from "../../types";
 
-export const recalculateIndicators = (
+export const recalcIndicators = (
   data: Data,
   indicators: Indicators,
   indicatorId?: string
@@ -10,6 +10,7 @@ export const recalculateIndicators = (
   const timeSeries = data.map((entry) =>
     "close" in entry ? entry.close : entry.value
   );
+  console.log(timeSeries, newIndicators);
   if (indicatorId) {
     const indicator = indicators[indicatorId];
     newIndicators[indicatorId].data = indicator.func(

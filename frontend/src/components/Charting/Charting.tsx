@@ -16,6 +16,7 @@ import Indicators from "./Indicator/IndicatorDialog";
 import IndicatorSeries from "./Indicator/IndicatorSeries";
 import LivePrice from "./LivePrice";
 import DateRangeSelector from "./DateRangeSelector";
+import { recalcIndicators } from "./Indicator/IndicatorDialog/utils";
 
 interface ChartingProps {
   id: string;
@@ -31,10 +32,14 @@ interface ChartingProps {
 export default function Charting(props: ChartingProps) {
   const [conId, setConId] = React.useState<number>();
   const [res, setRes] = React.useState<HistoricalData[]>([]);
-  const [setComponents, setData] = useChartStore((state) => [
-    state.setComponents,
-    state.setData,
-  ]);
+  const [chart, setIndicators, setComponents, setData] = useChartStore(
+    (state) => [
+      state.charts[props.id],
+      state.setIndicators,
+      state.setComponents,
+      state.setData,
+    ]
+  );
   const [interval, setInterval] = React.useState<IntervalTypes>("1 hour");
 
   const handleClick = (conId: number, customInterval?: IntervalTypes) =>
@@ -42,6 +47,8 @@ export default function Charting(props: ChartingProps) {
       .then((res) => {
         const resData = res.data;
         if (!resData || resData.length === 0) return;
+        setIndicators(props.id, recalcIndicators(resData, chart.indicators));
+
         setData(props.id, resData);
         setRes(resData);
         // We might need to replot our data everytime it changes!

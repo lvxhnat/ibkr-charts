@@ -2,10 +2,8 @@ import * as React from "react";
 import * as d3 from "d3";
 import * as S from "./style";
 import { ClickAwayListener, Divider, Popper, Typography } from "@mui/material";
-import { ColorsEnum } from "../../../common/theme";
 import { IntervalTypes } from "../types";
 import { useChartStore } from "../../../store/charts";
-import { recalculateIndicators } from "../Indicator/IndicatorDialog/utils";
 
 export type PeriodChoices = "YTD" | "1Y" | "2Y" | "5Y" | "10Y" | string;
 
@@ -29,10 +27,6 @@ export default function DateRangeSelector(props: {
   setInterval: (interval: IntervalTypes) => void;
   handleClick: (int?: IntervalTypes) => void;
 }) {
-  const [chart, setIndicators] = useChartStore((state) => [
-    state.charts[props.id],
-    state.setIndicators,
-  ]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null); // Anchor for Popper
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -43,10 +37,6 @@ export default function DateRangeSelector(props: {
     props.setInterval(interval);
     props.handleClick(interval);
     // With new data, indicators are now changed, we should update them
-    setIndicators(
-      props.id,
-      recalculateIndicators(chart.data, chart.indicators)
-    );
     handleMenuClose();
   };
 
