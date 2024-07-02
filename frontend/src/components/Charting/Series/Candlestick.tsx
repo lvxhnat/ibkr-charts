@@ -16,7 +16,6 @@ export default function Candlestick(props: CandlestickProps) {
   const { margin, width, yScale, xScale } = chart.comps;
   const data: OHLC[] = props.data as OHLC[];
   const barWidth = (0.8 * (width - margin.l - margin.r)) / data.length;
-  console.log(data)
   React.useEffect(() => {
 
     if (!ref.current || !xScale) return;

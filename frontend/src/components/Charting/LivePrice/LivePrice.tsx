@@ -41,7 +41,7 @@ interface LivePriceProps extends Omit<ChartProps, "children"> {
 }
 
 export default function LivePrice(props: LivePriceProps) {
-  const defaultColor = ColorsEnum.grey;
+  const defaultColor = ColorsEnum.white;
   const [openPrice, setOpenPrice] = React.useState<number>();
   const [priceInfo, setPriceInfo] = React.useState<PriceInfo>({} as PriceInfo);
 

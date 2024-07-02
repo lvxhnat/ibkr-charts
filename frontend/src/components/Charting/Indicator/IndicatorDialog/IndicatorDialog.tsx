@@ -54,7 +54,8 @@ export default function IndicatorDialog(props: IndicatorProps) {
         disableFocusRipple
         onClick={handleClickOpen}
         style={{
-          padding: "0 10px",
+          padding: "1.6vh 1vw",
+          height: 0
         }}
         startIcon={<TbMathIntegralX size={typographyTheme.subtitle1.fontSize} />}
       >

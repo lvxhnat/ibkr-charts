@@ -16,6 +16,7 @@ import {
 import { ColorsEnum } from "../../../common/theme";
 import { currencyToEmoji } from "../../../common/helper/countries";
 import { useDebounce } from "../../../common/hooks/useDebounce";
+import { typographyTheme } from "../../../common/theme/typography";
 
 type FilterTypes = "ALL" | "ETF" | "CASH" | "FUND" | "STK";
 const filterType: FilterTypes[] = ["ALL", "ETF", "CASH", "FUND", "STK"];
@@ -28,7 +29,6 @@ const filterEmojis = {
 };
 
 interface SearchProps {
-  miniType?: boolean;
   onClick: (conId: number) => void;
 }
 
@@ -101,9 +101,8 @@ export default function Search(props: SearchProps) {
             ml: 1,
             flex: 1,
             p: 0,
-            fontSize: props.miniType ? "10px" : "12px",
+            fontSize: typographyTheme.subtitle1.fontSize,
           }}
-          inputProps={{ style: props.miniType ? { padding: "2px 0" } : {} }}
           placeholder="Search Tickers"
           autoFocus
         />

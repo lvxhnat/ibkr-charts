@@ -22,15 +22,16 @@ export const LegendContainer = styled("div")(({ theme }) => ({
   position: "absolute",
   display: "flex",
   flexDirection: "column",
-  paddingLeft: "5%",
+  top: "max(5%, 40px)",
+  left: "5%",
 }));
 
 interface CircleProps {
   color: string;
 }
 export const Circle = styled("div")<CircleProps>(({ theme, color }) => ({
-  width: "10px",
-  height: "10px",
+  width: "max(5px, 0.5vw)",
+  height: "max(5px, 0.5vw)",
   borderRadius: "100%",
   backgroundColor: color,
 }));

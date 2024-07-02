@@ -1,6 +1,7 @@
 import * as S from "./style";
-import moment from "moment";
 import * as React from "react";
+import * as d3 from "d3";
+import moment from "moment";
 import {
   IndicatorObject,
   useChartMouseStore,
@@ -10,7 +11,6 @@ import { ChartProps } from "../Chart";
 import { OHLC } from "../types";
 import { ColorsEnum } from "../../../common/theme";
 import {
-  MenuList,
   Typography,
   Popper,
   ClickAwayListener,
@@ -23,6 +23,7 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FunctionsIcon from "@mui/icons-material/Functions";
+import { SketchPicker } from 'react-color';
 import {
   BootstrapDialog,
   BootstrapDialogTitle,
@@ -31,6 +32,7 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from "../Indicator/IndicatorDialog/BaseTable";
+
 import { capitalizeString } from "../../../common/helper/general";
 
 export interface LegendProps extends Omit<ChartProps, "children"> {}
@@ -80,7 +82,9 @@ export default function Legend(props: LegendProps) {
     // Initialise the main data series legend.
     let m_ = "";
     if (data[index]) {
-      m_ = `Date: ${moment(data[index].date).format("DD MMM YYYY HH:MM")}`;
+      let date = data[index].date
+      if (date) date = new Date(date as string)! 
+      m_ = `Date: ${d3.timeFormat("%d %b %Y %H:%M:%S")(date as Date)}`;
       if ("close" in data[index]) {
         const entry = data[index] as OHLC;
         m_ = `${m_} — Open: $${entry.open} High: $${entry.high} Low: $${entry.low} Close: $${entry.close}`;
@@ -112,15 +116,19 @@ export default function Legend(props: LegendProps) {
 
   const handleClick = (event: React.MouseEvent<HTMLElement>, i: number) => {
     setAnchorEl(event.currentTarget);
-    setDialogOpen(true);
   };
 
-  const handleRowClick = (indicatorId: string) => {
+  const handleRemove = (indicatorId: string) => {
     handleMenuClose();
     removeIndicator(props.id, indicatorId);
   };
 
   const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleParametersClose = () => {
+    setDialogOpen(true);
     setAnchorEl(null);
   };
 
@@ -159,16 +167,18 @@ export default function Legend(props: LegendProps) {
                 style={{ zIndex: 1300 }}
               >
                 <ClickAwayListener onClickAway={handleMenuClose}>
-                  <S.StyledMenuItem>
-                    <S.StyledMenuItem onClick={() => handleRowClick(shortId)}>
-                      <DeleteIcon fontSize="inherit" />
-                      <Typography variant="subtitle1">Remove</Typography>
-                    </S.StyledMenuItem>
-                    <S.StyledMenuItem onClick={handleMenuClose}>
-                      <FunctionsIcon fontSize="inherit" />
-                      <Typography variant="subtitle1">Parameters...</Typography>
-                    </S.StyledMenuItem>
-                  </S.StyledMenuItem>
+                  <S.StyledMenuList>
+                      <S.StyledMenuItem onClick={() => handleRemove(shortId)}>
+                        <DeleteIcon fontSize="inherit" />
+                        <Typography variant="subtitle1">Remove</Typography>
+                      </S.StyledMenuItem>
+                      <S.StyledMenuItem onClick={handleParametersClose}>
+                        <FunctionsIcon fontSize="inherit" />
+                        <Typography variant="subtitle1">
+                          Parameters...
+                        </Typography>
+                      </S.StyledMenuItem>
+                  </S.StyledMenuList>
                 </ClickAwayListener>
               </Popper>
             </S.RowWrapper>
@@ -215,6 +225,18 @@ export default function Legend(props: LegendProps) {
                     </TableBody>
                   </Table>
                 </Grid>
+                <Grid container sx={{ padding: 2 }}>
+                  <Grid item xs={3}>
+                    <Typography variant="subtitle1">
+                      Line Color
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={9}>
+                    <SketchPicker onChangeComplete={(color) => {
+                      console.log(color);
+                    }}/>
+                  </Grid>
+                </Grid>
                 <Grid
                   container
                   sx={{ padding: 1 }}
@@ -239,10 +261,9 @@ export default function Legend(props: LegendProps) {
                             stagingParams
                           ),
                         },
-                      })
-                      handleClose()
-                    }
-                    }
+                      });
+                      handleClose();
+                    }}
                     style={{
                       padding: "0 10px",
                     }}

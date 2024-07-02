@@ -1,11 +1,32 @@
 import * as d3 from "d3";
-import moment from "moment";
 import * as React from "react";
 import { ChartProps } from "../Chart";
 import { useChartStore } from "../../../store/charts";
 import { styling } from "../constants";
 
 export interface XAxisProps extends Omit<ChartProps, "children"> {}
+
+const getDateFormat = (extentX: string[]): ((date: Date) => string) => {
+  const date1 = new Date(extentX[0]);
+  const date2 = new Date(extentX[10]);
+  if (date1 && date2) {
+    const diff = date2.getTime() - date1.getTime();
+    const oneDay = 24 * 60 * 60 * 1000;
+    const oneMonth = 30 * oneDay;
+    
+    if (diff < oneDay) {
+      return (value) => {
+        return d3.timeFormat("%H:%M:%S")(new Date(value))
+      };
+    } else if (diff < oneMonth) {
+      return (value) => d3.timeFormat("%b %d")(new Date(value));
+    } else {
+      return (value) => d3.timeFormat("%Y-%m-%d")(new Date(value));
+    }
+  }
+
+  return d3.timeFormat("%Y-%m-%d"); // Default format
+};
 
 export default function XAxis(props: XAxisProps) {
 
@@ -16,10 +37,14 @@ export default function XAxis(props: XAxisProps) {
   React.useEffect(() => {
     
     if (!ref.current || !xScale) return;
+
+    const domain = xScale.domain()
+    const dateFormat = getDateFormat(domain)
+
     const xAxis = d3
       .axisBottom(xScale)
       .ticks(5)
-      .tickFormat((value) => moment(new Date(value)).format("DD MMM YY"))
+      .tickFormat(dateFormat as any)
       .tickValues(
         xScale.domain().filter(function (d, i) {
           const jumps = Math.round(xScale.domain().length / 10);
