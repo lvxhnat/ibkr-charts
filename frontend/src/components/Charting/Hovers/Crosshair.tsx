@@ -7,9 +7,11 @@ import { useChartMouseStore, useChartStore } from "../../../store/charts";
 export interface CrosshairProps extends Omit<ChartProps, "children"> {}
 
 export default function Crosshair(props: CrosshairProps) {
-  const mousePosition = useChartMouseStore(state => state.mousePosition[props.id])
-  const chart = useChartStore(state => state.charts[props.id])
-  const { width, height, margin } = chart.comps
+  const mousePosition = useChartMouseStore(
+    (state) => state.mousePosition[props.id]
+  );
+  const chart = useChartStore((state) => state.charts[props.id]);
+  const { width, height, margin } = chart.comps;
 
   return (
     <g className="react-stockcharts-crosshair">
@@ -39,4 +41,4 @@ export default function Crosshair(props: CrosshairProps) {
       ) : null}
     </g>
   );
-};
+}

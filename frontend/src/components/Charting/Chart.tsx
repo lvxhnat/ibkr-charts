@@ -10,13 +10,15 @@ export interface ChartProps {
 
 export default function Chart(props: ChartProps) {
   const svgRef = React.useRef<SVGSVGElement>(null);
-  const charts = useChartStore(state => state.charts[props.id])
-  const setMousePosition = useChartMouseStore(state => state.setMousePosition)
+  const charts = useChartStore((state) => state.charts[props.id]);
+  const setMousePosition = useChartMouseStore(
+    (state) => state.setMousePosition
+  );
 
   const handleMouseMove = React.useCallback(
     throttle((event: MouseEvent) => {
       if (!svgRef.current) return;
-      const mousePos: [number, number] = d3.pointer(event)
+      const mousePos: [number, number] = d3.pointer(event);
       setMousePosition(props.id, mousePos);
     }, 10),
     []
@@ -29,11 +31,10 @@ export default function Chart(props: ChartProps) {
     }
   }, [charts.comps ? charts.comps.conId : charts.comps]);
 
-  if (!charts) return <></>
-  
-  const { width, height, margin } = charts.comps
+  if (!charts) return <></>;
 
-  
+  const { width, height, margin } = charts.comps;
+
   return (
     <svg
       id={props.id}

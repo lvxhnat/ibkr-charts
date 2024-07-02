@@ -10,7 +10,7 @@ export interface ContainerWrapperProps {
 }
 
 function DisconnectAlert() {
-  const connected = useNetworkStatus()
+  const connected = useNetworkStatus();
 
   return !connected ? (
     <Snackbar open={true}>

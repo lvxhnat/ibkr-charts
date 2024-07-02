@@ -8,13 +8,12 @@ const root = ReactDOM.createRoot(
 );
 
 function ThemedApp() {
-
   return (
-      <NetworkStatusProvider>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </NetworkStatusProvider>
+    <NetworkStatusProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </NetworkStatusProvider>
   );
 }
 

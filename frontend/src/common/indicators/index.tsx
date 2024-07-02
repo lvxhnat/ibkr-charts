@@ -11,15 +11,15 @@ import { TbMathIntegrals } from "react-icons/tb";
 export interface IndicatorParameterType {
   // Nested array because some functions tend to return multiple series
   func: (data: number[], params: any) => number[][];
-  params: {[param: string]: any}
-  name: string 
-  shortName: string
-  tag: string
-  icon: React.ReactElement
+  params: { [param: string]: any };
+  name: string;
+  shortName: string;
+  tag: string;
+  icon: React.ReactElement;
 }
 
 interface IndicatorParametersType {
-  [shortId: string]: IndicatorParameterType
+  [shortId: string]: IndicatorParameterType;
 }
 
 export const IndicatorParameters: IndicatorParametersType = {
@@ -29,7 +29,7 @@ export const IndicatorParameters: IndicatorParametersType = {
     name: "Exponential Moving Average",
     shortName: "EMA",
     tag: "Momentum",
-    icon: <TbMathIntegrals />
+    icon: <TbMathIntegrals />,
   },
   sma: {
     func: calculateSMA,
@@ -37,7 +37,7 @@ export const IndicatorParameters: IndicatorParametersType = {
     name: "Simple Moving Average",
     shortName: "SMA",
     tag: "Momentum",
-    icon: <TbMathIntegrals />
+    icon: <TbMathIntegrals />,
   },
   rsi: {
     func: calculateRSI,
@@ -45,6 +45,6 @@ export const IndicatorParameters: IndicatorParametersType = {
     name: "Relative Strength Indicator",
     shortName: "RSI",
     tag: "Momentum",
-    icon: <TbMathIntegrals />
+    icon: <TbMathIntegrals />,
   },
 };

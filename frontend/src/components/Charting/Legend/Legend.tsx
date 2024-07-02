@@ -23,7 +23,7 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FunctionsIcon from "@mui/icons-material/Functions";
-import { SketchPicker } from 'react-color';
+import { SketchPicker } from "react-color";
 import {
   BootstrapDialog,
   BootstrapDialogTitle,
@@ -82,8 +82,8 @@ export default function Legend(props: LegendProps) {
     // Initialise the main data series legend.
     let m_ = "";
     if (data[index]) {
-      let date = data[index].date
-      if (date) date = new Date(date as string)! 
+      let date = data[index].date;
+      if (date) date = new Date(date as string)!;
       m_ = `Date: ${d3.timeFormat("%d %b %Y %H:%M:%S")(date as Date)}`;
       if ("close" in data[index]) {
         const entry = data[index] as OHLC;
@@ -168,16 +168,14 @@ export default function Legend(props: LegendProps) {
               >
                 <ClickAwayListener onClickAway={handleMenuClose}>
                   <S.StyledMenuList>
-                      <S.StyledMenuItem onClick={() => handleRemove(shortId)}>
-                        <DeleteIcon fontSize="inherit" />
-                        <Typography variant="subtitle1">Remove</Typography>
-                      </S.StyledMenuItem>
-                      <S.StyledMenuItem onClick={handleParametersClose}>
-                        <FunctionsIcon fontSize="inherit" />
-                        <Typography variant="subtitle1">
-                          Parameters...
-                        </Typography>
-                      </S.StyledMenuItem>
+                    <S.StyledMenuItem onClick={() => handleRemove(shortId)}>
+                      <DeleteIcon fontSize="inherit" />
+                      <Typography variant="subtitle1">Remove</Typography>
+                    </S.StyledMenuItem>
+                    <S.StyledMenuItem onClick={handleParametersClose}>
+                      <FunctionsIcon fontSize="inherit" />
+                      <Typography variant="subtitle1">Parameters...</Typography>
+                    </S.StyledMenuItem>
                   </S.StyledMenuList>
                 </ClickAwayListener>
               </Popper>
@@ -227,14 +225,14 @@ export default function Legend(props: LegendProps) {
                 </Grid>
                 <Grid container sx={{ padding: 2 }}>
                   <Grid item xs={3}>
-                    <Typography variant="subtitle1">
-                      Line Color
-                    </Typography>
+                    <Typography variant="subtitle1">Line Color</Typography>
                   </Grid>
                   <Grid item xs={9}>
-                    <SketchPicker onChangeComplete={(color) => {
-                      console.log(color);
-                    }}/>
+                    <SketchPicker
+                      onChangeComplete={(color) => {
+                        console.log(color);
+                      }}
+                    />
                   </Grid>
                 </Grid>
                 <Grid

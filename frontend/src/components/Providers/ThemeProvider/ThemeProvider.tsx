@@ -8,7 +8,9 @@ interface ThemeProviderProps {
 }
 
 const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
-  return <ThemeMUIProvider theme={createTheme("dark")}>{children}</ThemeMUIProvider>;
+  return (
+    <ThemeMUIProvider theme={createTheme("dark")}>{children}</ThemeMUIProvider>
+  );
 };
 
 export default ThemeProvider;

@@ -38,11 +38,16 @@ export default function IndicatorDialog(props: IndicatorProps) {
     indicator: IndicatorParameterType
   ) => {
     let d;
-    if ("close" in chart.data[0]) d = (chart.data as OHLC[]).map((d) => d.close);
+    if ("close" in chart.data[0])
+      d = (chart.data as OHLC[]).map((d) => d.close);
     else d = (chart.data as TimeSeries[]).map((d) => d.value);
     const indicatorValue: number[][] = indicator.func(d, indicator.params);
     setIndicators(props.id, {
-      [indicatorId]: { ...indicator, data: indicatorValue, color: stringToColour(indicatorId) },
+      [indicatorId]: {
+        ...indicator,
+        data: indicatorValue,
+        color: stringToColour(indicatorId),
+      },
     });
   };
 
@@ -55,9 +60,11 @@ export default function IndicatorDialog(props: IndicatorProps) {
         onClick={handleClickOpen}
         style={{
           padding: "1.6vh 1vw",
-          height: 0
+          height: 0,
         }}
-        startIcon={<TbMathIntegralX size={typographyTheme.subtitle1.fontSize} />}
+        startIcon={
+          <TbMathIntegralX size={typographyTheme.subtitle1.fontSize} />
+        }
       >
         <Typography variant="subtitle1">Indicators</Typography>
       </Button>

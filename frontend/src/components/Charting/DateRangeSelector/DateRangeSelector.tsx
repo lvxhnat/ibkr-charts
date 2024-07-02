@@ -25,24 +25,29 @@ export const processChoiceToDate = (periodChoice: PeriodChoices): Date => {
 
 export default function DateRangeSelector(props: {
   id: string;
-  interval: IntervalTypes,
+  interval: IntervalTypes;
   setInterval: (interval: IntervalTypes) => void;
   handleClick: (int?: IntervalTypes) => void;
 }) {
-  const [chart, setIndicators] = useChartStore((state) => [state.charts[props.id], state.setIndicators])
+  const [chart, setIndicators] = useChartStore((state) => [
+    state.charts[props.id],
+    state.setIndicators,
+  ]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null); // Anchor for Popper
-
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleSelection = (interval: IntervalTypes) => {
-    props.setInterval(interval)
+    props.setInterval(interval);
     props.handleClick(interval);
     // With new data, indicators are now changed, we should update them
-    setIndicators(props.id, recalculateIndicators(chart.data, chart.indicators))
-    handleMenuClose()
+    setIndicators(
+      props.id,
+      recalculateIndicators(chart.data, chart.indicators)
+    );
+    handleMenuClose();
   };
 
   const handleMenuClose = () => {
@@ -51,9 +56,7 @@ export default function DateRangeSelector(props: {
 
   return (
     <S.DateRangeWrapper id={props.id}>
-      <S.DateRangeSelectionBox
-        onClick={handleClick}
-      >
+      <S.DateRangeSelectionBox onClick={handleClick}>
         <Typography variant="subtitle1">{props.interval}</Typography>
       </S.DateRangeSelectionBox>
       <Popper

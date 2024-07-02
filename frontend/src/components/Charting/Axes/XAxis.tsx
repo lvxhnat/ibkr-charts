@@ -13,10 +13,10 @@ const getDateFormat = (extentX: string[]): ((date: Date) => string) => {
     const diff = date2.getTime() - date1.getTime();
     const oneDay = 24 * 60 * 60 * 1000;
     const oneMonth = 30 * oneDay;
-    
+
     if (diff < oneDay) {
       return (value) => {
-        return d3.timeFormat("%H:%M:%S")(new Date(value))
+        return d3.timeFormat("%H:%M:%S")(new Date(value));
       };
     } else if (diff < oneMonth) {
       return (value) => d3.timeFormat("%b %d")(new Date(value));
@@ -29,17 +29,15 @@ const getDateFormat = (extentX: string[]): ((date: Date) => string) => {
 };
 
 export default function XAxis(props: XAxisProps) {
-
   const ref = React.useRef<SVGGElement>(null);
   const chart = useChartStore((state) => state.charts[props.id]);
-  const { margin, height, xScale} = chart.comps
+  const { margin, height, xScale } = chart.comps;
 
   React.useEffect(() => {
-    
     if (!ref.current || !xScale) return;
 
-    const domain = xScale.domain()
-    const dateFormat = getDateFormat(domain)
+    const domain = xScale.domain();
+    const dateFormat = getDateFormat(domain);
 
     const xAxis = d3
       .axisBottom(xScale)
@@ -59,12 +57,5 @@ export default function XAxis(props: XAxisProps) {
       .style("font-size", styling.xAxisFontSize);
   }, [xScale]);
 
-  return (
-    <g
-      ref={ref}
-      id={`${props.id}-xAxis`}
-    />
-  );
-};
-
-
+  return <g ref={ref} id={`${props.id}-xAxis`} />;
+}

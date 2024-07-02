@@ -20,6 +20,7 @@ from backend.app.api.endpoints.contract.params import (
     HistoricalDurationType,
     HistoricalIntervalType,
 )
+from backend.app.api.endpoints.contract.utils import mappings
 
 tag = "contract"
 router = APIRouter(tags=[tag], prefix=f"/{tag}")
@@ -64,11 +65,15 @@ async def get_ticker_metadata(contractId: str):
 @router.get("/{contractId}/historical")
 async def get_ticker_historical(
     contractId: str,
-    duration: Optional[HistoricalDurationType] = "30 D",
+    duration: Optional[HistoricalDurationType] = None,
     interval: Optional[HistoricalIntervalType] = "1 hour",
     price_type: Optional[HistoricalPriceType] = "MIDPOINT",
     end_date: Optional[datetime | str] = "",
+    realtime: Optional[bool] = False,
+    limit: int = 300,
 ):
+    if not duration:
+        duration = mappings[interval]
     contract_details = conid_mongodb(contractId)
     if contract_details and contract_details["type"] == "IND":
         # https://groups.io/g/twsapi/topic/4047801
@@ -85,7 +90,10 @@ async def get_ticker_historical(
         durationStr=duration,
         whatToShow=price_type,
         useRTH=True,
+        keepUpToDate=realtime,
     )
+    if limit:
+        data = data[-limit:]
     return data
 
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as S from "./style"
+import * as S from "./style";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
@@ -21,7 +21,7 @@ import { typographyTheme } from "../../../common/theme/typography";
 type FilterTypes = "ALL" | "ETF" | "CASH" | "FUND" | "STK";
 const filterType: FilterTypes[] = ["ALL", "ETF", "CASH", "FUND", "STK"];
 const filterEmojis = {
-  ALL: <AppsIcon fontSize="inherit"/>,
+  ALL: <AppsIcon fontSize="inherit" />,
   ETF: <BsDiagram3Fill size={"15px"} />,
   CASH: <BsCashStack size={"15px"} />,
   FUND: <BsBank size={"15px"} />,
@@ -75,44 +75,41 @@ export default function Search(props: SearchProps) {
 
   return (
     <React.Fragment>
-      <Paper
-        component="form"
-        sx={{ maxWidth: 400 }}
-      >
+      <Paper component="form" sx={{ maxWidth: 400 }}>
         <S.StyledPaper>
-        <IconButton
-          type="button"
-          disableRipple
-          style={{ padding: 0, paddingLeft: 5, fontSize: "15px" }}
-          onClick={() =>
-            setFilter((prev) => {
-              if (prev < filterType.length - 1) return prev + 1;
-              else return 0;
-            })
-          }
-        >
-          {filterEmojis[filterType[filter] as keyof typeof filterEmojis]}
-        </IconButton>
-        <InputBase
-          ref={inputRef}
-          value={searchTerm}
-          onChange={handleChange}
-          sx={{
-            ml: 1,
-            flex: 1,
-            p: 0,
-            fontSize: typographyTheme.subtitle1.fontSize,
-          }}
-          placeholder="Search Tickers"
-          autoFocus
-        />
-        <IconButton
-          type="button"
-          aria-label="search"
-          sx={{ padding: "0 5px", fontSize: "15px" }}
-        >
-          <SearchIcon fontSize="inherit" />
-        </IconButton>
+          <IconButton
+            type="button"
+            disableRipple
+            style={{ padding: 0, paddingLeft: 5, fontSize: "15px" }}
+            onClick={() =>
+              setFilter((prev) => {
+                if (prev < filterType.length - 1) return prev + 1;
+                else return 0;
+              })
+            }
+          >
+            {filterEmojis[filterType[filter] as keyof typeof filterEmojis]}
+          </IconButton>
+          <InputBase
+            ref={inputRef}
+            value={searchTerm}
+            onChange={handleChange}
+            sx={{
+              ml: 1,
+              flex: 1,
+              p: 0,
+              fontSize: typographyTheme.subtitle1.fontSize,
+            }}
+            placeholder="Search Tickers"
+            autoFocus
+          />
+          <IconButton
+            type="button"
+            aria-label="search"
+            sx={{ padding: "0 5px", fontSize: "15px" }}
+          >
+            <SearchIcon fontSize="inherit" />
+          </IconButton>
         </S.StyledPaper>
       </Paper>
       {showMenu ? (
@@ -120,14 +117,14 @@ export default function Search(props: SearchProps) {
           sx={{
             position: "absolute",
             backgroundColor: ColorsEnum.darkGrey,
-            color: ColorsEnum.white
+            color: ColorsEnum.white,
           }}
         >
           {results.map((d) => (
             <S.StyledMenuItem
               key={d.conid}
               onClick={() => {
-                props.onClick(d.conid)
+                props.onClick(d.conid);
                 setSearchTerm(d.localSymbol);
                 handleMenuClose();
               }}

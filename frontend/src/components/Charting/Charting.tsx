@@ -35,7 +35,7 @@ export default function Charting(props: ChartingProps) {
     state.setComponents,
     state.setData,
   ]);
-  const [interval, setInterval] = React.useState<IntervalTypes>("1 hour")
+  const [interval, setInterval] = React.useState<IntervalTypes>("1 hour");
 
   const handleClick = (conId: number, customInterval?: IntervalTypes) =>
     getHistoricalData(conId, { interval: customInterval ?? interval })
@@ -99,10 +99,22 @@ export default function Charting(props: ChartingProps) {
             }}
           />
         </Grid>
-        <Grid item xs={8} display="flex" justifyContent="flex-start" alignItems="center" gap={1}>
+        <Grid
+          item
+          xs={8}
+          display="flex"
+          justifyContent="flex-start"
+          alignItems="center"
+          gap={1}
+        >
           {conId ? (
             <React.Fragment>
-              <DateRangeSelector id={props.id} interval={interval} setInterval={setInterval} handleClick={(int?: IntervalTypes) => handleClick(conId, int)}/>
+              <DateRangeSelector
+                id={props.id}
+                interval={interval}
+                setInterval={setInterval}
+                handleClick={(int?: IntervalTypes) => handleClick(conId, int)}
+              />
               <Indicators id={props.id} />
               <LivePrice id={props.id} conId={conId} />
             </React.Fragment>
