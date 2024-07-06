@@ -3,6 +3,7 @@ import { ColorsEnum } from "../../../common/theme";
 import { getHistoricalData } from "../requests";
 import { Typography } from "@mui/material";
 import { ChartProps } from "../Chart";
+import { throttle } from "lodash";
 
 export interface PriceInfo {
   status: "live" | "frozen" | "delayed" | "delayed frozen" | "error";
@@ -22,9 +23,11 @@ export function connectPriceSocket(
   let ws = new WebSocket(
     `${process.env.REACT_APP_WEBSOCKET_URL!}/contract/${conId}/price`
   );
+  const throttledSetPriceInfo = throttle(setPriceInfo, 1000);
 
   ws.onmessage = function (event) {
-    setPriceInfo(JSON.parse(event.data));
+    const data = JSON.parse(event.data)
+    throttledSetPriceInfo(data);
   };
 
   ws.onerror = function (err: any) {

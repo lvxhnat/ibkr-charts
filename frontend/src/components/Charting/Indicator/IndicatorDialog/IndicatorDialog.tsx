@@ -1,3 +1,6 @@
+/**
+ * List all the available technical indicators that can be added to the chart.
+ */
 import * as React from "react";
 
 import DialogContent from "@mui/material/DialogContent";

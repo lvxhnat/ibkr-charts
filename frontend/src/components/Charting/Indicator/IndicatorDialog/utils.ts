@@ -10,7 +10,6 @@ export const recalcIndicators = (
   const timeSeries = data.map((entry) =>
     "close" in entry ? entry.close : entry.value
   );
-  console.log(timeSeries, newIndicators);
   if (indicatorId) {
     const indicator = indicators[indicatorId];
     newIndicators[indicatorId].data = indicator.func(

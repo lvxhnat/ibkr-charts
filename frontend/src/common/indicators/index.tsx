@@ -16,6 +16,7 @@ export interface IndicatorParameterType {
   shortName: string;
   tag: string;
   icon: React.ReactElement;
+  chartType: "inchart" | "subchart"
 }
 
 interface IndicatorParametersType {
@@ -30,6 +31,7 @@ export const IndicatorParameters: IndicatorParametersType = {
     shortName: "EMA",
     tag: "Momentum",
     icon: <TbMathIntegrals />,
+    chartType: "inchart",
   },
   sma: {
     func: calculateSMA,
@@ -38,6 +40,7 @@ export const IndicatorParameters: IndicatorParametersType = {
     shortName: "SMA",
     tag: "Momentum",
     icon: <TbMathIntegrals />,
+    chartType: "inchart",
   },
   rsi: {
     func: calculateRSI,
@@ -46,5 +49,6 @@ export const IndicatorParameters: IndicatorParametersType = {
     shortName: "RSI",
     tag: "Momentum",
     icon: <TbMathIntegrals />,
+    chartType: "subchart",
   },
 };

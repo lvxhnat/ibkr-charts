@@ -28,7 +28,7 @@ interface ChartSettings {
   comps: Components;
   data: Data;
   mousePosition: [number, number];
-  indicators: {};
+  indicators: Indicators;
 }
 
 interface ChartsTypes {
@@ -43,8 +43,8 @@ export const emptySettings: ChartSettings = {
   comps: {
     conId: 0,
     margin: { t: 1, b: 1, l: 1, r: 1 },
-    width: 1000,
-    height: 400,
+    width: 1200,
+    height: 550,
     minY: 0,
     maxY: 100,
     extentX: [],

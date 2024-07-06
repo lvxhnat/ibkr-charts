@@ -42,18 +42,23 @@ export default function Charting(props: ChartingProps) {
   );
   const [interval, setInterval] = React.useState<IntervalTypes>("1 hour");
 
+  React.useEffect(() => {
+    if (chart && chart.indicators) {
+      const indicator = recalcIndicators(res, chart.indicators) 
+      setIndicators(props.id, indicator);
+    }
+  }, [res])
+
   const handleClick = (conId: number, customInterval?: IntervalTypes) =>
     getHistoricalData(conId, { interval: customInterval ?? interval })
       .then((res) => {
         const resData = res.data;
         if (!resData || resData.length === 0) return;
-        setIndicators(props.id, recalcIndicators(resData, chart.indicators));
-
         setData(props.id, resData);
         setRes(resData);
         // We might need to replot our data everytime it changes!
         const margin = { t: 5, b: 30, l: 40, r: 10 };
-        const width = 1100;
+        const width = 1200;
         const height = 600;
 
         // Declare the axes that have to be present
@@ -96,7 +101,7 @@ export default function Charting(props: ChartingProps) {
       );
 
   return (
-    <Grid style={{ height: "800px", width: "100%" }}>
+    <Grid style={{ height: "100%", width: "100%" }}>
       <Grid container display="flex" gap={2}>
         <Grid item xs={3}>
           <Search
@@ -128,6 +133,8 @@ export default function Charting(props: ChartingProps) {
           ) : null}
         </Grid>
       </Grid>
+      {conId}
+      {res.length}
       <Grid sx={{ paddingTop: 0 }}>
         {!!conId && res.length !== 0 ? (
           <React.Fragment>

@@ -24,7 +24,6 @@ const getDateFormat = (extentX: string[]): ((date: Date) => string) => {
       return (value) => d3.timeFormat("%Y-%m-%d")(new Date(value));
     }
   }
-
   return d3.timeFormat("%Y-%m-%d"); // Default format
 };
 

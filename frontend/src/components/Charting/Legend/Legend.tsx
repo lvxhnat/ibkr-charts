@@ -32,11 +32,16 @@ import {
 } from "../Indicator/IndicatorDialog/BaseTable";
 
 import { capitalizeString } from "../../../common/helper/general";
+import { IndicatorParameterType } from "../../../common/indicators";
 
 export interface LegendProps extends Omit<ChartProps, "children"> {}
 
 interface MetaType {
   [shortId: string]: { color: string; text: string };
+}
+interface StagingParams {
+  indicatorId: string;
+    params: {[params: string]: any}
 }
 
 export default function Legend(props: LegendProps) {
@@ -50,9 +55,7 @@ export default function Legend(props: LegendProps) {
   const [meta, setMeta] = React.useState<MetaType>({});
   const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null); // Anchor for Popper
-  const [stagingParams, setStagingParams] = React.useState<{
-    [params: string]: any;
-  }>({}); // Anchor for Popper
+  const [stagingParams, setStagingParams] = React.useState<StagingParams>({} as StagingParams); // Anchor for Popper
 
   const { data, indicators, comps } = chart;
   const { margin, xScale } = comps;
@@ -112,8 +115,10 @@ export default function Legend(props: LegendProps) {
     setMeta(acc);
   }, [index, chart.indicators]);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>, i: number) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>, indicatorId: string) => {
     setAnchorEl(event.currentTarget);
+    const params = indicators[indicatorId].params
+    setStagingParams({ indicatorId: indicatorId, params: params ?? {} })
   };
 
   const handleRemove = (indicatorId: string) => {
@@ -132,7 +137,7 @@ export default function Legend(props: LegendProps) {
 
   const handleClose = () => {
     setDialogOpen(false);
-    setStagingParams({});
+    setStagingParams({} as StagingParams);
   };
 
   return (
@@ -142,7 +147,7 @@ export default function Legend(props: LegendProps) {
         let ind: IndicatorObject = {} as IndicatorObject;
         if (shortId !== "base") {
           ind = indicators[shortId as keyof typeof indicators];
-          params = ind.params;
+          params = { ...ind.params };
         }
         return (
           <React.Fragment key={`${props.id}-legend-${i}`}>
@@ -154,7 +159,7 @@ export default function Legend(props: LegendProps) {
               <S.StyledIconButton
                 disableRipple
                 style={{ display: shortId === "base" ? "none" : "default" }}
-                onClick={(e) => handleClick(e, i)}
+                onClick={(e) => handleClick(e, shortId)}
               >
                 <MoreHorizIcon />
               </S.StyledIconButton>
@@ -192,7 +197,8 @@ export default function Legend(props: LegendProps) {
                   <Table>
                     <TableBody>
                       {params
-                        ? Object.keys(params).map((paramString: string) => (
+                        ? Object.keys(params).map((paramString: string) => {
+                          return (
                             <StyledTableRow key={paramString}>
                               <StyledTableCell sx={{ paddingLeft: 2 }}>
                                 <Typography variant="subtitle1">
@@ -203,20 +209,22 @@ export default function Legend(props: LegendProps) {
                                 <S.NumericInput
                                   type="number"
                                   value={
-                                    stagingParams[paramString] ??
+                                    stagingParams.params && stagingParams.params[paramString] ? stagingParams.params[paramString] :
                                     params[paramString]
                                   }
                                   style={{ width: "200px" }}
-                                  onChange={(event) =>
+                                  onChange={(event) => {
                                     setStagingParams((oldParams) => ({
                                       ...oldParams,
-                                      [paramString]: event.target.value,
+                                      params: {[paramString]: Number(event.target.value)}
                                     }))
+                                  }
                                   }
                                 />
                               </StyledTableCell>
                             </StyledTableRow>
-                          ))
+                          )
+                        })
                         : null}
                     </TableBody>
                   </Table>
@@ -233,19 +241,21 @@ export default function Legend(props: LegendProps) {
                     disableFocusRipple
                     onClick={() => {
                       // Create indicators and close
-                      setIndicators(props.id, {
-                        [shortId]: {
-                          ...ind,
-                          params: stagingParams,
-                          data: ind.func(
-                            data.map((entry) => {
-                              if ("value" in entry) return entry.value;
-                              else return entry.close;
-                            }),
-                            stagingParams
-                          ),
-                        },
-                      });
+                      if (Object.keys(stagingParams.params).length !== 0) {
+                        setIndicators(props.id, {
+                          [stagingParams.indicatorId]: {
+                            ...indicators[stagingParams.indicatorId],
+                            params: stagingParams.params,
+                            data: indicators[stagingParams.indicatorId].func(
+                              data.map((entry) => {
+                                if ("value" in entry) return entry.value;
+                                else return entry.close;
+                              }),
+                              stagingParams.params
+                            ),
+                          },
+                        });
+                      }
                       handleClose();
                     }}
                     style={{
