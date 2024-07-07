@@ -147,6 +147,7 @@ export default function Legend(props: LegendProps) {
         let ind: IndicatorObject = {} as IndicatorObject;
         if (shortId !== "base") {
           ind = indicators[shortId as keyof typeof indicators];
+          if (!ind) return <div key={`${props.id}-legend-${i}`} />
           params = { ...ind.params };
         }
         return (

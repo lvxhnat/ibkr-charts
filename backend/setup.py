@@ -26,6 +26,7 @@ base_requirements = {
     "uvicorn",
     "websockets",
     "kombu",
+    "xmltodict",
     "ib_insync",
     "pymongo",
 }

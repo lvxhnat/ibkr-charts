@@ -133,8 +133,6 @@ export default function Charting(props: ChartingProps) {
           ) : null}
         </Grid>
       </Grid>
-      {conId}
-      {res.length}
       <Grid sx={{ paddingTop: 0 }}>
         {!!conId && res.length !== 0 ? (
           <React.Fragment>

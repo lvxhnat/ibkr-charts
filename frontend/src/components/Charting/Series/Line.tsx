@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as d3 from "d3";
 import { ChartProps } from "../Chart";
-import { ColorsEnum } from "../../../common/theme";
 import { useChartStore } from "../../../store/charts";
 
 export interface LineProps extends Omit<ChartProps, "children"> {
