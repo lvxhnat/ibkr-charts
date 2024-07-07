@@ -75,7 +75,7 @@ export default function Search(props: SearchProps) {
 
   return (
     <React.Fragment>
-      <Paper component="form" sx={{ maxWidth: 400 }}>
+      <Paper component="form" sx={{ maxWidth: 500 }}>
         <S.StyledPaper>
           <IconButton
             type="button"
@@ -98,11 +98,17 @@ export default function Search(props: SearchProps) {
               ml: 1,
               flex: 1,
               p: 0,
-              fontSize: typographyTheme.subtitle1.fontSize,
+              padding: 0, 
+              fontSize: typographyTheme.subtitle2.fontSize,
             }}
             placeholder="Search Tickers"
             autoFocus
-          />
+            inputProps={{
+               style: {
+                 padding: "max(1%, 3px) 0"
+               }
+            }}
+        />
           <IconButton
             type="button"
             aria-label="search"

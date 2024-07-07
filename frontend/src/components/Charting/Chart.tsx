@@ -35,6 +35,8 @@ export default function Chart(props: ChartProps) {
 
   const { width, height, margin } = charts.comps;
 
+  console.log(props.id, "XXXX--")
+
   return (
     <svg
       id={props.id}
@@ -48,6 +50,7 @@ export default function Chart(props: ChartProps) {
       <rect
         x={margin.l}
         y={margin.t}
+        id={props.id}
         width={width - margin.l - margin.r}
         height={height - margin.t - margin.b}
         fill="transparent"

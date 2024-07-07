@@ -27,7 +27,7 @@ export const DateRangeWrapper = styled("div")({
 export const DateRangeSelectionBox = styled(Button)<{ selected?: boolean }>(
   ({ theme }) => ({
     zIndex: 10,
-    padding: `1.6vh 1vw`,
+    padding: `1.4vh 0.8vw`,
     borderRadius: 5,
     display: "flex",
     alignItems: "center",

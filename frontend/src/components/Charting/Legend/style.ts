@@ -22,8 +22,11 @@ export const LegendContainer = styled("div")(({ theme }) => ({
   position: "absolute",
   display: "flex",
   flexDirection: "column",
-  top: "max(5%, 40px)",
-  left: "5%",
+  alignItems: "flex-start",
+  justifyContent: "flex-start",
+  marginLeft: "2%",
+  minWidth: "500px",
+  paddingTop: "5px"
 }));
 
 interface CircleProps {
@@ -41,6 +44,7 @@ export const RowWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
+  paddingLeft: "min(20px, 3%)"
 }));
 
 export const StyledIconButton = styled(IconButton)(({ theme }) => ({

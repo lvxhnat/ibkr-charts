@@ -32,16 +32,17 @@ import {
 } from "../Indicator/IndicatorDialog/BaseTable";
 
 import { capitalizeString } from "../../../common/helper/general";
-import { IndicatorParameterType } from "../../../common/indicators";
 
-export interface LegendProps extends Omit<ChartProps, "children"> {}
+export interface LegendProps extends Omit<ChartProps, "children"> {
+  [others: string]: any
+}
 
 interface MetaType {
   [shortId: string]: { color: string; text: string };
 }
 interface StagingParams {
   indicatorId: string;
-    params: {[params: string]: any}
+  params: {[params: string]: any}
 }
 
 export default function Legend(props: LegendProps) {
@@ -85,10 +86,10 @@ export default function Legend(props: LegendProps) {
     if (data[index]) {
       let date = data[index].date;
       if (date) date = new Date(date as string)!;
-      m_ = `Date: ${d3.timeFormat("%d %b %Y %H:%M:%S")(date as Date)}`;
+      m_ = `${d3.timeFormat("%d %b %Y %H:%M:%S")(date as Date)}`;
       if ("close" in data[index]) {
         const entry = data[index] as OHLC;
-        m_ = `${m_} — Open: $${entry.open} High: $${entry.high} Low: $${entry.low} Close: $${entry.close}`;
+        m_ = `${m_} — O: $${entry.open} H: $${entry.high} L: $${entry.low} C: $${entry.close}`;
       } else {
         m_ = `${m_} Value: ${data[index].value}`;
       }
@@ -141,7 +142,7 @@ export default function Legend(props: LegendProps) {
   };
 
   return (
-    <S.LegendContainer id={`${props.id}-legend`}>
+    <S.LegendContainer {...props} id={`${props.id}-legend`}>
       {Object.keys(meta).map((shortId, i) => {
         let params: { [param: string]: any } = {};
         let ind: IndicatorObject = {} as IndicatorObject;
@@ -154,7 +155,7 @@ export default function Legend(props: LegendProps) {
           <React.Fragment key={`${props.id}-legend-${i}`}>
             <S.RowWrapper>
               <S.Circle color={meta[shortId].color} />{" "}
-              <Typography variant="subtitle1" color="white">
+              <Typography variant="subtitle2" color="white">
                 {meta[shortId].text}
               </Typography>
               <S.StyledIconButton
@@ -162,7 +163,7 @@ export default function Legend(props: LegendProps) {
                 style={{ display: shortId === "base" ? "none" : "default" }}
                 onClick={(e) => handleClick(e, shortId)}
               >
-                <MoreHorizIcon />
+                <MoreHorizIcon fontSize="small" />
               </S.StyledIconButton>
               <Popper
                 open={Boolean(anchorEl)}

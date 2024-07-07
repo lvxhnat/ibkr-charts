@@ -3,7 +3,6 @@ import * as d3 from "d3";
 import * as S from "./style";
 import { ClickAwayListener, Divider, Popper, Typography } from "@mui/material";
 import { IntervalTypes } from "../types";
-import { useChartStore } from "../../../store/charts";
 
 export type PeriodChoices = "YTD" | "1Y" | "2Y" | "5Y" | "10Y" | string;
 
@@ -47,7 +46,7 @@ export default function DateRangeSelector(props: {
   return (
     <S.DateRangeWrapper id={props.id}>
       <S.DateRangeSelectionBox onClick={handleClick}>
-        <Typography variant="subtitle1">{props.interval}</Typography>
+        <Typography variant="subtitle2">{props.interval}</Typography>
       </S.DateRangeSelectionBox>
       <Popper
         open={Boolean(anchorEl)}
@@ -57,69 +56,69 @@ export default function DateRangeSelector(props: {
       >
         <ClickAwayListener onClickAway={handleMenuClose}>
           <S.StyledMenuList>
-            <Typography variant="subtitle1" sx={{ padding: 1 }}>
+            <Typography variant="subtitle2" sx={{ padding: 1 }}>
               SECONDS
             </Typography>
             <Divider />
             <S.StyledMenuItem onClick={() => handleSelection("1 secs")}>
-              <Typography variant="subtitle1">1 second</Typography>
+              <Typography variant="subtitle2">1 second</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("5 secs")}>
-              <Typography variant="subtitle1">5 seconds</Typography>
+              <Typography variant="subtitle2">5 seconds</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("10 secs")}>
-              <Typography variant="subtitle1">10 seconds</Typography>
+              <Typography variant="subtitle2">10 seconds</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("15 secs")}>
-              <Typography variant="subtitle1">15 seconds</Typography>
+              <Typography variant="subtitle2">15 seconds</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("30 secs")}>
-              <Typography variant="subtitle1">30 seconds</Typography>
+              <Typography variant="subtitle2">30 seconds</Typography>
             </S.StyledMenuItem>
-            <Typography variant="subtitle1" sx={{ padding: 1 }}>
+            <Typography variant="subtitle2" sx={{ padding: 1 }}>
               MINUTES
             </Typography>
             <Divider />
             <S.StyledMenuItem onClick={() => handleSelection("1 min")}>
-              <Typography variant="subtitle1">1 minute</Typography>
+              <Typography variant="subtitle2">1 minute</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("2 mins")}>
-              <Typography variant="subtitle1">2 minutes</Typography>
+              <Typography variant="subtitle2">2 minutes</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("5 mins")}>
-              <Typography variant="subtitle1">5 minutes</Typography>
+              <Typography variant="subtitle2">5 minutes</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("15 mins")}>
-              <Typography variant="subtitle1">15 minutes</Typography>
+              <Typography variant="subtitle2">15 minutes</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("30 mins")}>
-              <Typography variant="subtitle1">30 minutes</Typography>
+              <Typography variant="subtitle2">30 minutes</Typography>
             </S.StyledMenuItem>
-            <Typography variant="subtitle1" sx={{ padding: 1 }}>
+            <Typography variant="subtitle2" sx={{ padding: 1 }}>
               HOURS
             </Typography>
             <Divider />
             <S.StyledMenuItem onClick={() => handleSelection("1 hour")}>
-              <Typography variant="subtitle1">1 Hour</Typography>
+              <Typography variant="subtitle2">1 Hour</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("2 hours")}>
-              <Typography variant="subtitle1">2 Hours</Typography>
+              <Typography variant="subtitle2">2 Hours</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("4 hours")}>
-              <Typography variant="subtitle1">4 Hours</Typography>
+              <Typography variant="subtitle2">4 Hours</Typography>
             </S.StyledMenuItem>
-            <Typography variant="subtitle1" sx={{ padding: 1 }}>
+            <Typography variant="subtitle2" sx={{ padding: 1 }}>
               DAYS
             </Typography>
             <Divider />
             <S.StyledMenuItem onClick={() => handleSelection("1 day")}>
-              <Typography variant="subtitle1">1 Day</Typography>
+              <Typography variant="subtitle2">1 Day</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("1 week")}>
-              <Typography variant="subtitle1">1 Week</Typography>
+              <Typography variant="subtitle2">1 Week</Typography>
             </S.StyledMenuItem>
             <S.StyledMenuItem onClick={() => handleSelection("1 month")}>
-              <Typography variant="subtitle1">1 Month</Typography>
+              <Typography variant="subtitle2">1 Month</Typography>
             </S.StyledMenuItem>
           </S.StyledMenuList>
         </ClickAwayListener>

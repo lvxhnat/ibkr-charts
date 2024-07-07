@@ -26,7 +26,7 @@ export const typographyTheme = {
     fontSize: `calc(0.5rem + 0.3vw)`,
   },
   subtitle2: {
-    fontSize: `calc(0.3rem + 0.3vw)`,
+    fontSize: "0.7vw",
     fontWeight: 500,
   },
   overline: {

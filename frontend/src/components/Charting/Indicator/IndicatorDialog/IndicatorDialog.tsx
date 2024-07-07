@@ -6,7 +6,7 @@ import * as React from "react";
 import DialogContent from "@mui/material/DialogContent";
 import Typography from "@mui/material/Typography";
 import { TbMathIntegralX } from "react-icons/tb";
-import { Button, Grid, Table, TableBody } from "@mui/material";
+import { Button, Grid, IconButton, Table, TableBody } from "@mui/material";
 import { BootstrapDialog, BootstrapDialogTitle } from "./Dialog";
 import { StyledTableCell, StyledTableRow } from "./BaseTable";
 import {
@@ -19,6 +19,7 @@ import { v4 as uuid } from "uuid";
 import { OHLC, TimeSeries } from "../../types";
 import { stringToColour } from "../../../../common/helper/general";
 import { typographyTheme } from "../../../../common/theme/typography";
+import { ColorsEnum } from "../../../../common/theme";
 
 interface IndicatorProps extends Omit<ChartProps, "children"> {}
 
@@ -56,21 +57,17 @@ export default function IndicatorDialog(props: IndicatorProps) {
 
   return (
     <React.Fragment>
-      <Button
-        size="small"
-        variant="contained"
+      <IconButton
         disableFocusRipple
         onClick={handleClickOpen}
         style={{
-          padding: "1.6vh 1vw",
+          border: `1px solid ${ColorsEnum.warmgray1}`,
+          padding: "1.4vh 1vw",
           height: 0,
         }}
-        startIcon={
-          <TbMathIntegralX size={typographyTheme.subtitle1.fontSize} />
-        }
       >
-        <Typography variant="subtitle1">Indicators</Typography>
-      </Button>
+        <TbMathIntegralX size={typographyTheme.subtitle1.fontSize} />
+      </IconButton>
       <BootstrapDialog
         maxWidth="md"
         onClose={handleClose}

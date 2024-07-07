@@ -41,6 +41,10 @@ export default function Charting(props: ChartingProps) {
     ]
   );
   const [interval, setInterval] = React.useState<IntervalTypes>("1 hour");
+  // Set default values 
+  const margin = { t: 5, b: 30, l: 40, r: 10 };
+  const width = 1200;
+  const height = 600;
 
   React.useEffect(() => {
     if (chart && chart.indicators) {
@@ -56,10 +60,6 @@ export default function Charting(props: ChartingProps) {
         if (!resData || resData.length === 0) return;
         setData(props.id, resData);
         setRes(resData);
-        // We might need to replot our data everytime it changes!
-        const margin = { t: 5, b: 30, l: 40, r: 10 };
-        const width = 1200;
-        const height = 600;
 
         // Declare the axes that have to be present
         const isOHLC = "close" in resData[0];
@@ -70,7 +70,7 @@ export default function Charting(props: ChartingProps) {
         );
         const extentX: string[] = resData.map((value) => value.date);
         const extentY: [number, number] = [
-          Math.max(minY - (maxY - minY) * 0.3, 0),
+          Math.max(minY - (maxY - minY) * 0.2, 0),
           maxY + (maxY - minY) * 0.2,
         ];
         const xScale = d3
@@ -82,6 +82,8 @@ export default function Charting(props: ChartingProps) {
           .scaleLinear()
           .range([height - margin.b, margin.t])
           .domain(extentY);
+
+        console.log(xScale.range())
 
         setComponents(props.id, {
           conId: conId,
@@ -102,8 +104,8 @@ export default function Charting(props: ChartingProps) {
 
   return (
     <Grid style={{ height: "100%", width: "100%" }}>
-      <Grid container display="flex" gap={2}>
-        <Grid item xs={3}>
+      <Grid container display="flex" alignItems="center">
+        <Grid item xs={4} sx={{ paddingRight: "5px"}}>
           <Search
             onClick={(conId) => {
               setConId(conId);
@@ -117,7 +119,7 @@ export default function Charting(props: ChartingProps) {
           display="flex"
           justifyContent="flex-start"
           alignItems="center"
-          gap={1}
+          gap={0.5}
         >
           {conId ? (
             <React.Fragment>

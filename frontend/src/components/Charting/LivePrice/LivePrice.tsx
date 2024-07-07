@@ -78,7 +78,7 @@ export default function LivePrice(props: LivePriceProps) {
       }}
     >
       <Typography
-        variant="body2"
+        variant="subtitle1"
         style={{
           color: defaultColor,
         }}
@@ -86,7 +86,7 @@ export default function LivePrice(props: LivePriceProps) {
         ${priceInfo.last ? priceInfo.last.toFixed(2) : "-"}
       </Typography>
 
-      <div>
+      <div style={{ marginTop: -4 }}>
         <div>
           <Typography
             variant="subtitle2"
@@ -107,14 +107,14 @@ export default function LivePrice(props: LivePriceProps) {
               : null}
           </Typography>
         </div>
-        <div style={{ display: "flex", gap: 5, marginBottom: -3 }}>
+        <div style={{ display: "flex", gap: 5, marginBottom: -3, marginTop: -4 }}>
           <Typography
             variant="subtitle2"
             style={{
               color: defaultColor,
             }}
           >
-            Last Bid: $
+            B: $
             {priceInfo.last_bid ? priceInfo.last_bid.toFixed(2) : "-"}
           </Typography>
           <Typography
@@ -123,7 +123,7 @@ export default function LivePrice(props: LivePriceProps) {
               color: defaultColor,
             }}
           >
-            Last Ask: $
+            A: $
             {priceInfo.last_ask ? priceInfo.last_ask.toFixed(2) : "-"}
           </Typography>
         </div>
