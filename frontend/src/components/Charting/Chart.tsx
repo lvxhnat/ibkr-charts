@@ -35,8 +35,6 @@ export default function Chart(props: ChartProps) {
 
   const { width, height, margin } = charts.comps;
 
-  console.log(props.id, "XXXX--")
-
   return (
     <svg
       id={props.id}

@@ -66,16 +66,15 @@ export const useChartStore = create<ChartsTypes>((set) => ({
       };
     }),
   setIndicators: (id: string, indicators: Indicators) =>
-    set((st) => {
-      const pChart = st.charts[id] ?? emptySettings;
-      const newChart = {
-        ...st.charts,
+    set((state) => {
+      const pChart = state.charts[id] ?? emptySettings;
+      return { charts: {
+        ...state.charts,
         [id]: {
           ...pChart,
           indicators: { ...pChart.indicators, ...indicators },
         },
-      };
-      return { charts: newChart };
+      }};
     }),
   removeIndicator: (id: string, indicatorId: string) =>
     set((st) => {

@@ -7,6 +7,7 @@ interface IndicatorSeriesProps extends Omit<ChartProps, "children"> {}
 
 export default function IndicatorSeries(props: IndicatorSeriesProps) {
   const charts = useChartStore((state) => state.charts[props.id]);
+  console.log(props.id, "Rerendered")
   return (
     <React.Fragment>
       {Object.keys(charts.indicators).map((shortId: string) => {

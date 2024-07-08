@@ -163,7 +163,7 @@ export default function Legend(props: LegendProps) {
                 style={{ display: shortId === "base" ? "none" : "default" }}
                 onClick={(e) => handleClick(e, shortId)}
               >
-                <MoreHorizIcon fontSize="small" />
+                <MoreHorizIcon fontSize="inherit" />
               </S.StyledIconButton>
               <Popper
                 open={Boolean(anchorEl)}
