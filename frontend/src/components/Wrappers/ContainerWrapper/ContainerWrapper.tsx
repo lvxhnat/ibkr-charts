@@ -26,6 +26,7 @@ export default function ContainerWrapper(props: ContainerWrapperProps) {
         height: "100vh",
         paddingLeft: 20,
         paddingRight: 20,
+        width: "100%"
       }}
       alignItems="center"
     >

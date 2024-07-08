@@ -8,7 +8,9 @@ export default function Charts() {
   const [selection, setSelection] = React.useState<[number, number]>([0, 0]);
   return (
     <ContainerWrapper>
-      <GridSelector selection={selection} setSelection={setSelection} />
+      <Grid container sx={{ position: "absolute", width: "98%" }} display="flex" justifyContent="flex-end">
+        <GridSelector selection={selection} setSelection={setSelection} />
+      </Grid>
       <Grid
         container
         sx={{
