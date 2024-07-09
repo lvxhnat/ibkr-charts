@@ -6,6 +6,25 @@ import { IntervalTypes } from "../types";
 
 export type PeriodChoices = "YTD" | "1Y" | "2Y" | "5Y" | "10Y" | string;
 
+const dateConversion = {
+  "1 second": "1s",
+  "5 seconds": "5s",
+  "10 seconds": "10s",
+  "15 seconds": "15s",
+  "30 seconds": "30s",
+  "1 minute": "1m",
+  "2 minutes": "2m",
+  "5 minutes": "5m",
+  "15 minutes": "15m",
+  "30 minutes": "30m",
+  "1 hour": "1h",
+  "2 hours": "2h",
+  "4 hours": "4h",
+  "1 day": "D",
+  "1 week": "W",
+  "1 month": "M",
+};
+
 export const processChoiceToDate = (periodChoice: PeriodChoices): Date => {
   let currentDate = new Date();
   if (periodChoice === "YTD") return new Date(currentDate.getFullYear(), 0, 1);
@@ -45,8 +64,10 @@ export default function DateRangeSelector(props: {
 
   return (
     <S.DateRangeWrapper id={props.id}>
-      <S.DateRangeSelectionBox onClick={handleClick}>
-        <Typography variant="subtitle2">{props.interval}</Typography>
+      <S.DateRangeSelectionBox disableRipple onClick={handleClick}>
+        <Typography variant="subtitle2">
+          {dateConversion[props.interval as keyof typeof dateConversion]}
+        </Typography>
       </S.DateRangeSelectionBox>
       <Popper
         open={Boolean(anchorEl)}

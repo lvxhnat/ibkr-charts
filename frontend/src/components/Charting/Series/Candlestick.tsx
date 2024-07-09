@@ -41,7 +41,7 @@ export default function Candlestick(props: CandlestickProps) {
       .attr("fill", (d) =>
         d.close > d.open ? styling.positive : styling.negative
       );
-  }, [props.data]);
+  }, [props.data, yScale]);
 
   return <g id={`${props.id}-candleStick`} ref={ref} />;
 }

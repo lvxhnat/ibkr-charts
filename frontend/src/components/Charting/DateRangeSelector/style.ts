@@ -27,6 +27,7 @@ export const DateRangeWrapper = styled("div")({
 export const DateRangeSelectionBox = styled(Button)<{ selected?: boolean }>(
   ({ theme }) => ({
     zIndex: 10,
+    minWidth: 0,
     padding: `1.4vh 0.8vw`,
     borderRadius: 5,
     display: "flex",
@@ -37,7 +38,6 @@ export const DateRangeSelectionBox = styled(Button)<{ selected?: boolean }>(
     border: `1px solid ${ColorsEnum.warmgray1}`,
     "&:hover": {
       cursor: "pointer",
-      backgroundColor: ColorsEnum.warmgray2,
     },
   })
 );

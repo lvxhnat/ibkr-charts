@@ -13,6 +13,7 @@ export interface Components {
   extentY: [number, number];
   xScale?: d3.ScaleBand<string>;
   yScale?: d3.ScaleLinear<number, number, never>;
+  yScales?: d3.ScaleLinear<number, number, never>[]; // List of temporary y scales
 }
 
 export interface IndicatorObject extends IndicatorParameterType {

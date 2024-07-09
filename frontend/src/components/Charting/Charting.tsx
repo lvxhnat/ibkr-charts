@@ -1,21 +1,21 @@
-import * as React from "react";
 import * as d3 from "d3";
+import * as React from "react";
+import { Grid } from "@mui/material";
+
 import Chart from "./Chart";
 import Search from "./Search";
-import { getHistoricalData } from "./requests";
-import { HistoricalData, IntervalTypes } from "./types";
-import { XAxis } from "./Axes";
-import { getArrMinMax } from "../../common/helper/general";
-import { useChartStore } from "../../store/charts";
-import YAxis from "./Axes/YAxis";
-import { Candlestick } from "./Series";
-import { Grid } from "@mui/material";
-import { Crosshair } from "./Hovers";
+import MainSeries from "./Series";
 import { Legend } from "./Legend";
-import Indicators from "./Indicator/IndicatorDialog";
-import IndicatorSeries from "./Indicator/IndicatorSeries";
 import LivePrice from "./LivePrice";
+import { Crosshair } from "./Hovers";
+import { XAxis, YAxis } from "./Axes";
+import { IndicatorSeries, IndicatorSubseries } from "./Indicator";
+import { getHistoricalData } from "./requests";
+import { useChartStore } from "../../store/charts";
 import DateRangeSelector from "./DateRangeSelector";
+import Indicators from "./Indicator/IndicatorDialog";
+import { HistoricalData, IntervalTypes } from "./types";
+import { getArrMinMax } from "../../common/helper/general";
 import { recalcIndicators } from "./Indicator/IndicatorDialog/utils";
 
 interface ChartingProps {
@@ -41,17 +41,17 @@ export default function Charting(props: ChartingProps) {
     ]
   );
   const [interval, setInterval] = React.useState<IntervalTypes>("1 hour");
-  // Set default values 
+  // Set default values
   const margin = { t: 5, b: 30, l: 40, r: 10 };
   const width = 1200;
   const height = 600;
 
   React.useEffect(() => {
     if (chart && chart.indicators) {
-      const indicator = recalcIndicators(res, chart.indicators) 
+      const indicator = recalcIndicators(res, chart.indicators);
       setIndicators(props.id, indicator);
     }
-  }, [res])
+  }, [res]);
 
   const handleClick = (conId: number, customInterval?: IntervalTypes) =>
     getHistoricalData(conId, { interval: customInterval ?? interval })
@@ -83,8 +83,6 @@ export default function Charting(props: ChartingProps) {
           .range([height - margin.b, margin.t])
           .domain(extentY);
 
-        console.log(xScale.range())
-
         setComponents(props.id, {
           conId: conId,
           width: width,
@@ -105,7 +103,7 @@ export default function Charting(props: ChartingProps) {
   return (
     <Grid style={{ height: "100%", width: "100%" }}>
       <Grid container display="flex" alignItems="center">
-        <Grid item xs={4} sx={{ paddingRight: "5px"}}>
+        <Grid item xs={4} sx={{ paddingRight: "5px" }}>
           <Search
             onClick={(conId) => {
               setConId(conId);
@@ -143,8 +141,9 @@ export default function Charting(props: ChartingProps) {
               <XAxis id={props.id} />
               <YAxis id={props.id} />
               <Crosshair id={props.id} />
-              <Candlestick id={props.id} data={res} />
+              <MainSeries id={props.id} data={res} />
               <IndicatorSeries id={props.id} />
+              <IndicatorSubseries id={props.id} />
             </Chart>
           </React.Fragment>
         ) : null}

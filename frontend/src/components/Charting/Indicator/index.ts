@@ -1,3 +1,5 @@
 import IndicatorDialog from "./IndicatorDialog";
+import IndicatorSeries from "./IndicatorSeries";
+import IndicatorSubseries from "./IndicatorSubseries";
 
-export { IndicatorDialog };
+export { IndicatorDialog, IndicatorSubseries, IndicatorSeries };

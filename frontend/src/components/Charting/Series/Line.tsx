@@ -7,12 +7,15 @@ export interface LineProps extends Omit<ChartProps, "children"> {
   color: string;
   indicatorId: string;
   data: number[];
+  transform?: string;
+  yScale?: d3.ScaleLinear<number, number, never>;
 }
 
 export default function Line(props: LineProps) {
   const ref = React.useRef<SVGGElement>(null);
   const charts = useChartStore((state) => state.charts[props.id]);
-  const { xScale, yScale } = charts.comps;
+  let { xScale, yScale } = charts.comps;
+  yScale = props.yScale ?? yScale
   // The indicator data series
   const data = charts.data.map((d, i) => ({
     date: d.date as string,
@@ -45,7 +48,9 @@ export default function Line(props: LineProps) {
       .attr("fill", "none")
       .attr("stroke", props.color)
       .attr("stroke-width", 1)
-      .attr("d", line(data));
+      .attr("d", line(data))
+      
+    if (props.transform) path.attr("transform", props.transform);
 
     // Get the total length of the line
     const totalLength = path.node()?.getTotalLength();

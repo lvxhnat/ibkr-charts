@@ -1,3 +1,4 @@
 import XAxis from "./XAxis";
+import YAxis from "./YAxis";
 
-export { XAxis };
+export { XAxis, YAxis };

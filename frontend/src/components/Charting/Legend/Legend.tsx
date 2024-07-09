@@ -97,8 +97,10 @@ export default function Legend(props: LegendProps) {
     let acc: MetaType = {};
     acc["base"] = { color: ColorsEnum.white, text: m_ };
     for (const shortId of Object.keys(indicators)) {
+      // Legend for the shortIds
       const indicator: IndicatorObject =
         indicators[shortId as keyof typeof indicators];
+      console.log(indicator.data, data, index)
       const v = indicator.data.map((d, i) => {
         let appendItem = "";
         if (indicator.data.length > 1) appendItem = `-${i}`;
