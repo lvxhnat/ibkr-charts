@@ -2,10 +2,13 @@ import React from "react";
 import {
   calculateEMA,
   calculateSMA,
+  calculateRSI, 
+  calculateKernelRegression,
   defaultEMAParams,
   defaultSMAParams,
-} from "./momentum/movingAverages";
-import { calculateRSI, defaultRSIParams } from "./momentum/relativeStrength";
+  defaultRSIParams,
+  defaultKRParams
+} from "./momentum";
 import { TbMathIntegrals } from "react-icons/tb";
 
 export interface IndicatorParameterType {
@@ -51,4 +54,13 @@ export const IndicatorParameters: IndicatorParametersType = {
     icon: <TbMathIntegrals />,
     chartType: "subchart",
   },
+  kr: {
+    func: calculateKernelRegression,
+    params: defaultKRParams,
+    name: "Kernel Regression",
+    shortName: "KR",
+    tag: "Momentum",
+    icon: <TbMathIntegrals />,
+    chartType: "inchart",
+  }
 };
