@@ -60,7 +60,7 @@ export default function IndicatorSubseries(props: IndicatorSubseriesProps) {
           <React.Fragment>
             <YAxis
               id={props.id}
-              numTicks={4}
+              numTicks={3}
               chartId={`${props.id}-${i}`}
               yScale={entry.scale}
               transform={`translate(${comps.margin.l}, ${

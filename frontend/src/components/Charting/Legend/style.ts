@@ -44,11 +44,13 @@ export const RowWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
-  paddingLeft: "min(20px, 3%)"
+  marginLeft: "calc(50% - 15em)"
 }));
 
 export const StyledIconButton = styled(IconButton)(({ theme }) => ({
   padding: 0,
+  minWidth: 0, 
+  minHeight: 0,
   "&:hover": {
     opacity: 0.8,
   },

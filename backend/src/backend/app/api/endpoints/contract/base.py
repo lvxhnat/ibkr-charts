@@ -70,7 +70,7 @@ async def get_ticker_historical(
     price_type: Optional[HistoricalPriceType] = "MIDPOINT",
     end_date: Optional[datetime | str] = "",
     realtime: Optional[bool] = False,
-    limit: int = 300,
+    limit: int = 500,
 ):
     if not duration:
         duration = mappings[interval]

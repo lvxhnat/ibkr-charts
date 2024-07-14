@@ -43,7 +43,7 @@ export default function Charting(props: ChartingProps) {
   const [interval, setInterval] = React.useState<IntervalTypes>("1 hour");
   // Set default values
   const margin = { t: 5, b: 30, l: 40, r: 10 };
-  const width = 1200;
+  const width = 1100;
   const height = 600;
 
   React.useEffect(() => {

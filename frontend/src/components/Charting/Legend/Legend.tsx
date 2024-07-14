@@ -19,7 +19,7 @@ import {
   TableBody,
   Button,
 } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { MdOutlineMoreHoriz } from "react-icons/md";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import {
@@ -32,6 +32,7 @@ import {
 } from "../Indicator/IndicatorDialog/BaseTable";
 
 import { capitalizeString } from "../../../common/helper/general";
+import { typographyTheme } from "../../../common/theme/typography";
 
 export interface LegendProps extends Omit<ChartProps, "children"> {
   [others: string]: any
@@ -165,7 +166,7 @@ export default function Legend(props: LegendProps) {
                 style={{ display: shortId === "base" ? "none" : "default" }}
                 onClick={(e) => handleClick(e, shortId)}
               >
-                <MoreHorizIcon fontSize="inherit" />
+                <MdOutlineMoreHoriz size={typographyTheme.subtitle1.fontSize} />
               </S.StyledIconButton>
               <Popper
                 open={Boolean(anchorEl)}
