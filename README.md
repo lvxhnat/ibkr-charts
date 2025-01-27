@@ -27,10 +27,11 @@ cd backend
 pip install -e .
 ```
 3. Set up environment variables
-In `.env` under `backend/`
+In `.env` under `backend/`, add in your mongodb path. This will be the path the tickers are read from. You can find the data for this in my public drive [here](https://drive.google.com/drive/folders/13Zlw5Qyg09iLu4SJTExVvpv1sw-pRmVo)
 ```
 # Database name should be 'finflow'
 # Collection name should be 'all_tickers'
+# Alternatively, edit the parameters in `backend/src/backend/app/api/clients/ibkr/search.py`
 MONGODB_URI="..."
 ```
 In `.env` under `frontend/`
