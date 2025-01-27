@@ -1,4 +1,4 @@
-# Treadstone
+# ibkr-charts
 
 This project aims to provide a tempalte UI that allows users to chart on IBKR datastreams. It is by no means finished, and will be undergoing constant improvements! 
 
@@ -6,7 +6,7 @@ This project has included pre-written indicators that are coded from scratch in 
 
 <img src="./assets/sample-dashboard.png" width="500px"/>
 
-## Quick Start
+## 🚀 Quick Start
 
 1. Install frontend dependencies
 ```bash
