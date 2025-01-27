@@ -1,3 +1,28 @@
+export const IntervalMapping: { [K in IntervalTypes]: number } = {
+  "1 secs": 1,
+  "5 secs": 5,
+  "10 secs": 10,
+  "15 secs": 15,
+  "30 secs": 30,
+  "1 min": 60,
+  "2 mins": 120,
+  "3 mins": 180,
+  "5 mins": 300,
+  "10 mins": 600,
+  "15 mins": 900,
+  "20 mins": 1200,
+  "30 mins": 1800,
+  "1 hour": 3600,
+  "2 hours": 7200,
+  "3 hours": 10800,
+  "4 hours": 14400,
+  "8 hours": 28800,
+  "1 day": 86400,
+  "1 week": 604800,
+  "1 month": 2592000, // Assuming 30 days
+} as const;
+
+
 export type IntervalTypes =
   | "1 secs"
   | "5 secs"

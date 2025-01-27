@@ -8,6 +8,9 @@ export const StyledMenuList = styled(MenuList)(({ theme }) => ({
   padding: 0,
   backgroundColor: ColorsEnum.darkGrey,
   color: ColorsEnum.white,
+  maxHeight: "200px",
+  overflowY: "auto",
+  "&::-webkit-scrollbar": { display: "none" },
 }));
 
 export const StyledMenuItem = styled(MenuItem)(({ theme }) => ({

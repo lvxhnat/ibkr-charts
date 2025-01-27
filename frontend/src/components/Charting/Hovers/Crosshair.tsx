@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ChartProps } from "../Chart";
 import { styling } from "../constants";
-import { Data } from "../types";
 import { useChartMouseStore, useChartStore } from "../../../store/charts";
 
 export interface CrosshairProps extends Omit<ChartProps, "children"> {}

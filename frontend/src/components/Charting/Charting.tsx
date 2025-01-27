@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import * as React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 import Chart from "./Chart";
 import Search from "./Search";
@@ -14,23 +14,19 @@ import { getHistoricalData } from "./requests";
 import { useChartStore } from "../../store/charts";
 import DateRangeSelector from "./DateRangeSelector";
 import Indicators from "./Indicator/IndicatorDialog";
-import { HistoricalData, IntervalTypes } from "./types";
+import { HistoricalData, IntervalMapping, IntervalTypes } from "./types";
 import { getArrMinMax } from "../../common/helper/general";
 import { recalcIndicators } from "./Indicator/IndicatorDialog/utils";
+import { Ticker } from "./Search/requests";
 
 interface ChartingProps {
   id: string;
+  isSmall: boolean;
 }
 
-/**
- * References:
- * https://codepen.io/browles/pen/mPMBjw
- *
- * @param props
- * @returns
- */
 export default function Charting(props: ChartingProps) {
   const [conId, setConId] = React.useState<number>();
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [res, setRes] = React.useState<HistoricalData[]>([]);
   const [chart, setIndicators, setComponents, setData] = useChartStore(
     (state) => [
@@ -40,11 +36,22 @@ export default function Charting(props: ChartingProps) {
       state.setData,
     ]
   );
-  const [interval, setInterval] = React.useState<IntervalTypes>("1 hour");
+  const [selectedTicker, setSelectedTicker] = React.useState<Ticker>();
+  const [interval, setInterval] = React.useState<IntervalTypes>("1 day");
+  const [width, setWidth] = React.useState(window.innerWidth * 0.8); // 80% of screen width
+  const [height, setHeight] = React.useState(window.innerHeight * 0.75); // 60% of screen height
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth * 0.8);
+      setHeight(window.innerHeight * 0.6);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Set default values
   const margin = { t: 5, b: 30, l: 40, r: 10 };
-  const width = 1100;
-  const height = 600;
 
   React.useEffect(() => {
     if (chart && chart.indicators) {
@@ -53,15 +60,24 @@ export default function Charting(props: ChartingProps) {
     }
   }, [res]);
 
-  const handleClick = (conId: number, customInterval?: IntervalTypes) =>
+  React.useEffect(() => {
+    if (conId && interval) {
+      setLoading(true);
+      handleClick(conId, interval); // Initial call
+      const refreshInterval: number = window.setInterval(() => {
+        handleClick(conId, interval);
+      }, Math.max(IntervalMapping[interval] * 1000, 5 * 1000)); // Minimum 5 seconds
+      return () => window.clearInterval(refreshInterval);
+    }
+  }, [conId, interval]);
+
+  const handleClick = (conId: number, customInterval?: IntervalTypes) => {
     getHistoricalData(conId, { interval: customInterval ?? interval })
       .then((res) => {
         const resData = res.data;
         if (!resData || resData.length === 0) return;
         setData(props.id, resData);
         setRes(resData);
-
-        // Declare the axes that have to be present
         const isOHLC = "close" in resData[0];
         const [minY, maxY] = getArrMinMax(
           resData,
@@ -98,14 +114,20 @@ export default function Charting(props: ChartingProps) {
       })
       .catch((err) =>
         console.log(`Timeout error when requesting data for contract ${conId}`)
-      );
+      )
+      .finally(() => setLoading(false));
+  };
 
   return (
     <Grid style={{ height: "100%", width: "100%" }}>
       <Grid container display="flex" alignItems="center">
         <Grid item xs={4} sx={{ paddingRight: "5px" }}>
           <Search
-            onClick={(conId) => {
+            id={`${props.id}-search`}
+            key={`${props.id}-search`}
+            onClick={(ticker) => {
+              const conId = ticker.conid;
+              setSelectedTicker(ticker);
               setConId(conId);
               handleClick(conId);
             }}
@@ -128,13 +150,30 @@ export default function Charting(props: ChartingProps) {
                 handleClick={(int?: IntervalTypes) => handleClick(conId, int)}
               />
               <Indicators id={props.id} />
-              <LivePrice id={props.id} conId={conId} />
+              <LivePrice
+                isSmall={props.isSmall}
+                id={props.id}
+                ticker={selectedTicker!}
+              />
             </React.Fragment>
           ) : null}
         </Grid>
       </Grid>
-      <Grid sx={{ paddingTop: 0 }}>
-        {!!conId && res.length !== 0 ? (
+      <Grid sx={{ padding: 0 }}>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              height: "100%",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "300px"
+            }}
+          >
+            <Typography variant="body2">Loading Chart...</Typography>
+          </div>
+        ) : !!conId && res.length !== 0 ? (
           <React.Fragment>
             <Legend id={props.id} />
             <Chart id={props.id}>

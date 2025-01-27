@@ -10,11 +10,21 @@ export const StyledPaper = styled(Paper)(({ theme }) => ({
   border: `1px solid ${ColorsEnum.darkGrey}`,
 }));
 
-export const StyledMenuList = styled(MenuList)(({ theme }) => ({
+interface StyledMenuListProps {
+  hide: boolean;
+}
+
+export const StyledMenuList = styled(MenuList, {
+  shouldForwardProp: (prop) => prop !== "isChecked"
+})<StyledMenuListProps>(({ theme, hide }) => ({
   position: "absolute",
   backgroundColor: ColorsEnum.darkGrey,
+  display: hide ? "none" : undefined,
   color: ColorsEnum.white,
   zIndex: 100,
+  maxHeight: "200px",
+  overflowY: "auto",
+  "&::-webkit-scrollbar": { display: "none" },
 }));
 
 export const StyledMenuItem = styled(MenuItem)(({ theme }) => ({

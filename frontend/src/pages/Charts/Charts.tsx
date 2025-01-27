@@ -8,7 +8,7 @@ export default function Charts() {
   const [selection, setSelection] = React.useState<[number, number]>([0, 0]);
   return (
     <ContainerWrapper>
-      <Grid container sx={{ position: "absolute", width: "98%" }} display="flex" justifyContent="flex-end">
+      <Grid container sx={{ width: "100%" }} display="flex" justifyContent="flex-end">
         <GridSelector selection={selection} setSelection={setSelection} />
       </Grid>
       <Grid
@@ -35,10 +35,10 @@ export default function Charts() {
                   <Grid
                     item
                     key={`row-${i}-${j}`}
-                    xs={12 / (selection[0] + 1)}
-                    sx={{ height: "100%" }}
+                    xs={12 / (selection[1] + 1)}
+                    sx={{ height: "100%", width: `${100 / (selection[1] + 1)}%` }}
                   >
-                    <Charting id={`chart-${i}-${j}`} />
+                    <Charting isSmall={selection[1] > 1} id={`chart-${i}-${j}`} />
                   </Grid>
                 ))}
             </Grid>

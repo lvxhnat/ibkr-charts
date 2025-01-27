@@ -4,6 +4,8 @@ import { getHistoricalData } from "../requests";
 import { Typography } from "@mui/material";
 import { ChartProps } from "../Chart";
 import { throttle } from "lodash";
+import { Ticker } from "../Search/requests";
+import { getLastTradingDayNotToday } from "../../../common/constant/dates";
 
 export interface PriceInfo {
   status: "live" | "frozen" | "delayed" | "delayed frozen" | "error";
@@ -26,7 +28,7 @@ export function connectPriceSocket(
   const throttledSetPriceInfo = throttle(setPriceInfo, 1000);
 
   ws.onmessage = function (event) {
-    const data = JSON.parse(event.data)
+    const data = JSON.parse(event.data);
     throttledSetPriceInfo(data);
   };
 
@@ -40,56 +42,115 @@ export function connectPriceSocket(
 }
 
 interface LivePriceProps extends Omit<ChartProps, "children"> {
-  conId: number;
+  ticker: Ticker;
+  isSmall: boolean;
 }
 
 export default function LivePrice(props: LivePriceProps) {
   const defaultColor = ColorsEnum.white;
   const [openPrice, setOpenPrice] = React.useState<number>();
+  const [lastUpdated, setLastUpdated] = React.useState<Date>();
+  const [lastClose, setLastClose] = React.useState<number>();
   const [priceInfo, setPriceInfo] = React.useState<PriceInfo>({} as PriceInfo);
 
+  const conId = props.ticker.conid;
+
+  const updatePriceInfo = (value: PriceInfo) => {
+    setLastUpdated(new Date());
+    setPriceInfo(value);
+  };
+
   React.useEffect(() => {
-    const socket = connectPriceSocket(setPriceInfo, props.conId);
-    getHistoricalData(props.conId, {
+    const socket = connectPriceSocket(updatePriceInfo, conId);
+    console.log("s");
+    getHistoricalData(conId, {
       duration: "5 D",
       interval: "1 day",
     })
       .then((res) => {
-        setOpenPrice(res.data[res.data.length - 2].close);
+        const entry = getLastTradingDayNotToday(res.data);
+        const lastClose = (entry ?? res.data[res.data.length - 1]).close;
+        setLastClose(lastClose);
+        setOpenPrice(lastClose);
       })
       .catch((err) =>
-        console.log(
-          `Timeout error when requesting data for contract ${props.conId}`
-        )
+        console.log(`Timeout error when requesting data for contract ${conId}`)
       );
     return () => {
       socket.close();
       console.log("PriceInfoShower WebSocket Connection Closed");
     };
-  }, [props.conId]);
+  }, [conId]);
 
   return priceInfo.status !== "error" && priceInfo.status ? (
     <div
       style={{
         display: "flex",
-        gap: 10,
+        gap: 5,
+        width: "100%",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
       }}
     >
+      <div style={{ display: "flex", flexDirection: "column", maxWidth: "180px" }}>
+        <Typography
+          color={ColorsEnum.coolgray6}
+          variant="subtitle2"
+          noWrap
+          padding={0}
+          lineHeight={1}
+        >
+          {props.isSmall
+            ? props.ticker.localSymbol
+            : `(${props.ticker.localSymbol}) ${props.ticker.description}`}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          padding={0}
+          lineHeight={1.5}
+          color={ColorsEnum.grey}
+        >
+          {props.isSmall
+            ? lastUpdated?.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              })
+            : `Last Updated: ${lastUpdated?.toLocaleTimeString()}`}{" "}
+        </Typography>
+      </div>
       <Typography
         variant="subtitle1"
         style={{
-          color: defaultColor,
+          color: openPrice
+          ? openPrice < priceInfo.last
+            ? ColorsEnum.green
+            : ColorsEnum.red
+          : defaultColor,
         }}
       >
         ${priceInfo.last ? priceInfo.last.toFixed(2) : "-"}
       </Typography>
 
-      <div style={{ marginTop: -4 }}>
-        <div>
+      <div
+        style={{
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          minWidth: "90px",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            gap: 5,
+          }}
+        >
           <Typography
             variant="subtitle2"
+            lineHeight={1}
             style={{
               padding: 0,
               color: openPrice
@@ -106,25 +167,23 @@ export default function LivePrice(props: LivePriceProps) {
                 ).toFixed(2)}%)`
               : null}
           </Typography>
-        </div>
-        <div style={{ display: "flex", gap: 5, marginBottom: -3, marginTop: -4 }}>
-          <Typography
-            variant="subtitle2"
-            style={{
-              color: defaultColor,
-            }}
-          >
-            B: $
-            {priceInfo.last_bid ? priceInfo.last_bid.toFixed(2) : "-"}
+          <Typography variant="subtitle2" lineHeight={1}>
+            LC: ${lastClose}
           </Typography>
-          <Typography
-            variant="subtitle2"
-            style={{
-              color: defaultColor,
-            }}
-          >
-            A: $
-            {priceInfo.last_ask ? priceInfo.last_ask.toFixed(2) : "-"}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: 5,
+            alignItems: "flex-start",
+            width: "100%",
+          }}
+        >
+          <Typography variant="subtitle2" color={defaultColor}>
+            B: ${priceInfo.last_bid ? priceInfo.last_bid.toFixed(2) : "-"}
+          </Typography>
+          <Typography variant="subtitle2" color={defaultColor}>
+            A: ${priceInfo.last_ask ? priceInfo.last_ask.toFixed(2) : "-"}
           </Typography>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { HistoricalData } from "../../components/Charting/types";
+
 const monthNames = [
   "January",
   "February",
@@ -27,4 +29,12 @@ export const formatDate = (date: Date | string): string => {
   if (mins.length < 2) mins = "0" + mins;
 
   return `${day} ${month} ${year} ${hours}:${mins}`;
+};
+
+export const getLastTradingDayNotToday = (data: HistoricalData[]): HistoricalData | null => {
+  const formattedDate = new Date().toLocaleDateString("fr-CA", {timeZone: "America/New_York"});
+  const filteredData = data
+    .filter((item) => item.date !== formattedDate) // Exclude today's date
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date (most recent first)
+  return filteredData.length > 0 ? filteredData[0] : null;
 };

@@ -108,5 +108,5 @@ interface ChartMouseTypes {
 export const useChartMouseStore = create<ChartMouseTypes>((set) => ({
   mousePosition: {},
   setMousePosition: (id: string, mousePos: [number, number]) =>
-    set((st) => ({ mousePosition: { ...st.mousePosition, [id]: mousePos } })),
+    set((state) => ({ mousePosition: { ...state.mousePosition, [id]: mousePos } })),
 }));

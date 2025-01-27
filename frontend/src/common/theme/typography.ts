@@ -16,7 +16,7 @@ export const typographyTheme = {
     fontWeight: "bold",
   },
   body1: {
-    fontSize: `calc(0.7rem + 0.3vw)`,
+    fontSize: `calc(0.6rem + 0.4vw)`,
     fontWeight: 500,
   },
   body2: {

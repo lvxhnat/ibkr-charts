@@ -24,8 +24,6 @@ export default function ContainerWrapper(props: ContainerWrapperProps) {
     <Stack
       style={{
         height: "100vh",
-        paddingLeft: 20,
-        paddingRight: 20,
         width: "100%"
       }}
       alignItems="center"
@@ -34,7 +32,6 @@ export default function ContainerWrapper(props: ContainerWrapperProps) {
       {props.hideNavigate ? <></> : <Divider style={{ width: "100%" }} />}
       <div
         style={{
-          paddingTop: 10,
           height: "100%",
           width: "100%",
           overflowY: "hidden",

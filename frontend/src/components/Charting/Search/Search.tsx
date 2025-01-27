@@ -5,7 +5,7 @@ import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import searchTicker, { Ticker } from "./requests";
-import { Grid, MenuList, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import AppsIcon from "@mui/icons-material/Apps";
 import {
   BsCashStack,
@@ -13,7 +13,6 @@ import {
   BsPiggyBankFill,
   BsDiagram3Fill,
 } from "react-icons/bs";
-import { ColorsEnum } from "../../../common/theme";
 import { currencyToEmoji } from "../../../common/helper/countries";
 import { useDebounce } from "../../../common/hooks/useDebounce";
 import { typographyTheme } from "../../../common/theme/typography";
@@ -29,7 +28,8 @@ const filterEmojis = {
 };
 
 interface SearchProps {
-  onClick: (conId: number) => void;
+  id: string;
+  onClick: (d: Ticker) => void;
 }
 
 export default function Search(props: SearchProps) {
@@ -40,16 +40,12 @@ export default function Search(props: SearchProps) {
   const [showMenu, setShowMenu] = React.useState(false); // New state to control menu visibility
   const inputRef = React.useRef<HTMLInputElement>(null); // Ref for the InputBase component
 
-  const handleMenuClose = () => {
-    setShowMenu(false);
-  };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   React.useEffect(() => {
-    if (query !== "") {
+    if (query.trim() !== "") {
       searchTicker(query, filterType[filter])
         .then((res) => {
           setResults(res.data);
@@ -58,17 +54,14 @@ export default function Search(props: SearchProps) {
         .catch((err) => console.log(`Timeout Error when searching for ticker`));
     } else {
       setResults([]);
-      handleMenuClose();
+      setShowMenu(false);
     }
   }, [query]);
 
   React.useEffect(() => {
     const closeMenu = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        handleMenuClose();
-      }
+      if (event.key === "Escape") setShowMenu(false);
     };
-
     document.addEventListener("keydown", closeMenu);
     return () => document.removeEventListener("keydown", closeMenu);
   }, []);
@@ -81,11 +74,11 @@ export default function Search(props: SearchProps) {
             type="button"
             disableRipple
             style={{ padding: 0, paddingLeft: 5, fontSize: "15px" }}
-            onClick={() =>
-              setFilter((prev) => {
+            onClick={() => {
+                setFilter((prev) => {
                 if (prev < filterType.length - 1) return prev + 1;
                 else return 0;
-              })
+              })}
             }
           >
             {filterEmojis[filterType[filter] as keyof typeof filterEmojis]}
@@ -118,15 +111,14 @@ export default function Search(props: SearchProps) {
           </IconButton>
         </S.StyledPaper>
       </Paper>
-      {showMenu ? (
-        <S.StyledMenuList>
+        <S.StyledMenuList hide={!showMenu} key={`${props.id}-menuList`}>
           {results.map((d) => (
             <S.StyledMenuItem
               key={d.conid}
               onClick={() => {
-                props.onClick(d.conid);
+                props.onClick(d);
                 setSearchTerm(d.localSymbol);
-                handleMenuClose();
+                setShowMenu(false);
               }}
             >
               <Grid container>
@@ -151,7 +143,6 @@ export default function Search(props: SearchProps) {
             </S.StyledMenuItem>
           ))}
         </S.StyledMenuList>
-      ) : null}
     </React.Fragment>
   );
 }

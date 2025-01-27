@@ -15,14 +15,11 @@ export default function Chart(props: ChartProps) {
     (state) => state.setMousePosition
   );
 
-  const handleMouseMove = React.useCallback(
-    throttle((event: MouseEvent) => {
-      if (!svgRef.current) return;
-      const mousePos: [number, number] = d3.pointer(event);
-      setMousePosition(props.id, mousePos);
-    }, 10),
-    []
-  );
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!svgRef.current) return;
+    const mousePos: [number, number] = d3.pointer(event);
+    setMousePosition(props.id, mousePos)
+  };
 
   React.useEffect(() => {
     const legendGroup = d3.select(svgRef.current).select("svg");

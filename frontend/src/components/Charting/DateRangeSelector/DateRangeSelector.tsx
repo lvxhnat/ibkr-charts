@@ -7,8 +7,8 @@ import { IntervalTypes } from "../types";
 export type PeriodChoices = "YTD" | "1Y" | "2Y" | "5Y" | "10Y" | string;
 
 const dateConversion = {
-  "1 secs": "1s",
-  "5 secs": "5s",
+  // "1 secs": "1s",
+  // "5 secs": "5s",
   "10 secs": "10s",
   "15 secs": "15s",
   "30 secs": "30s",
