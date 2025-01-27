@@ -1,13 +1,18 @@
 import os
 import csv
+import warnings
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
 env_loaded: bool = load_dotenv()
-client = MongoClient(os.environ["MONGODB_URI"])
+
+MONGODB_URI = os.environ.get("MONGODB_URI")
+if not MONGODB_URI:
+    warnings.warn("You have not yet input a MONGODB key! You can either scrape it from https://www.interactivebrokers.com/en/trading/symbol.php#/ and initiate your own mongodb service, or subscribe to an API Key here: ")
+client = MongoClient(MONGODB_URI)
+
 db = client["finflow"]
 collection = db["all_tickers"]
-
 
 def upload_csv_to_mongodb(csv_file_path):
     documents = []  # List to hold document data

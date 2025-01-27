@@ -115,8 +115,9 @@ async def get_price_stream(
             data = await serialise_tickerdata(ticker, status="delayed")
             try:
                 await websocket.send_json(data)
-            except:
-                print(f"Error occurred when sending price stream data in get_price_stream")
+            except Exception as e:
+                print(f"Error occurred when sending price stream data in get_price_stream: ")
+                print(e)
 
     contract = Contract(conId=contractId)
     await ibkr_client.qualifyContractsAsync(contract)
