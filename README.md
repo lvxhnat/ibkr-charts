@@ -2,9 +2,16 @@
 
 This project aims to provide a tempalte UI that allows users to chart on IBKR datastreams. It is by no means finished, and will be undergoing constant improvements! 
 
-This project has included pre-written indicators that are coded from scratch in Typescript, as well as multi-charting functionalities. In the home page, you will also see a built in Bloomberg news stream.
+This project also features the following functionalities:  
+- Live data, together with updated candlestick charting.
+- Pre-written indicators that are coded from scratch in Typescript, and can be added on to in the code.
+- Multi-charting functionalities, up to 6 charts per screen (you can open multiple tabs). 
+- In the home page, a built in Bloomberg news stream.
+- Ticker search functionalities on IBKR offerings.
 
-<img src="./assets/sample-dashboard.png" width="500px"/>
+| ![Alt Text 1](./assets/sample-dashboard.png) | ![Alt Text 2](./assets/indicators.png) |
+|---------------------------|---------------------------|
+| ![Alt Text 3](./assets/ticker-search.png) | ![Alt Text 4](./assets/bloomberg.png) |
 
 ## 🚀 Quick Start
 
@@ -19,11 +26,17 @@ conda activate my_env # or whatever virtual environment you are using
 cd backend
 pip install -e .
 ```
-3. Set up your mongoDB 
-```bash
-MONGODB_URI="..."
+3. Set up environment variables
+In `.env` under `backend/`
+```
 # Database name should be 'finflow'
 # Collection name should be 'all_tickers'
+MONGODB_URI="..."
+```
+In `.env` under `frontend/`
+```
+REACT_APP_BASE_URL="http://localhost:1245/"
+REACT_APP_WEBSOCKET_URL="ws://localhost:1245"
 ```
 4. Spin up and login to your TWS workstation. Port should be running on `7497`.
 5. Spin up frontend and backend 
